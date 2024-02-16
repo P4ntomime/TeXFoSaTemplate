@@ -1,0 +1,39 @@
+\documentclass[8pt, a4paper, twoside]{extarticle}
+
+
+% TODO: set tocdepth to 2 (or 1, dont remember)
+% TODO: set footer for portrait and landscape
+
+% ------------------------ DOCUMENT INFO ------------------------
+\def\title{Title}           % title
+\def\dozent{Dozent}         % lecturer
+\def\semester{Semester}     % semester
+\def\author{Authors}        % author(s)
+\def\repo{https://github.com/P4ntomime/SumJavaCPP}             % repository link
+\def\version{1.0.\today}   % version
+\def\pagelimit{1}           % page limit -> causes pages after limit to be red
+
+\input{packages.tex}
+
+
+% \begin{document}{landscape} % ChkTeX 15
+\begin{document} % ChkTeX 15
+    % \docformatstart%
+    % \begin{multicols*}{3}
+        \section{TestSection}
+        \subsection*{TestSubsection}
+        \section*{TestSection 2}
+        \newpage
+        \section{TestSection 3}
+        \subsection{TestSubsection 2}
+        \subsubsection{TestSubsubsection}
+        \example{testex}
+        \subsubsection{TestSubsubsection 2}
+        \subsection{TestSubsection 3}
+        \subsubsection{TestSubsubsection 3}
+        \newpage
+        \subsubsection*{TestSubsubsection 2s}
+        a
+    % \endmulticols*
+    % \docformatend%
+\end{document} % ChkTeX 15

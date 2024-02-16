@@ -1,0 +1,65 @@
+% inline tikz node for later referencing
+\newcommand{\tikznode}[2]{% from https://tex.stackexchange.com/a/402466/121799
+	\ifmmode%
+	\tikz[remember picture,baseline= (#1.base),inner sep=0pt] \node(#1){$#2$};
+	\else
+	\tikz[remember picture,baseline= (#1.base),inner sep=0pt] \node(#1){#2};
+	\fi}
+
+% inline lst tikz node for later referencing
+\newcommand{\lstnode}[2][0.5ex]{
+	\tikz[overlay, remember picture, inner sep=0pt, yshift=#1, minimum width=0mm]\node(#2){};
+}
+
+% custom inline tcolorbox
+\newtcbox{\mybox}
+            [1]
+            [backcolour]
+            {on line,
+            arc=0pt,
+            outer arc=0pt,
+            colback=#1,
+            colframe=#1,
+            boxsep=0pt,
+            left=1pt,
+            right=1pt,
+            top=1pt,
+            bottom=1pt,
+            boxrule=0pt}
+
+\makeatletter
+
+% renew command for lstinputlisting with less vertical spacing
+\renewcommand{\lstinputlisting}[2][]{
+    \begingroup
+    \vspace{-0.6\abovedisplayskip}
+    \lst@setcatcodes%
+    \lst@inputlisting[#1]{#2}
+    \vspace{-0.6\abovedisplayskip}
+}
+
+% custom text rightarrow to match tikz arrows
+\renewcommand{\textrightarrow}{\tikz{\draw[-{Stealth[length=1.7mm]},double] (0,0) -- (0.3,0);}} % ChkTeX 8 --> suppress ChkTeX warning
+\newcommand{\textlrarrow}{\tikz{\draw[{Stealth[length=1.7mm]}-{Stealth[length=1.7mm]},double] (0,0) -- (0.4,0);}} % ChkTeX 8 --> suppress ChkTeX warning
+
+% custom command for size matched colored brackets
+\newcommand{\bbr}[2]{\colorlet{saved}{.}\color{#1}\left(\color{saved}#2\color{#1}\right)\color{saved}}
+
+% shortcuts for colored text
+\newcommand{\cgn}[1]{{\color{basegreen}#1}}
+\newcommand{\crd}[1]{{\color{redcontrast}#1}}
+\newcommand{\cbl}[1]{{\color{bluecontrast}#1}}
+\newcommand{\cor}[1]{{\color{coralcontrast}#1}}
+\newcommand{\clt}[1]{{\color{claretcontrast}#1}}
+
+% bullet command for items in tables
+\newcommand\sbullet[1][.6]{\mathbin{\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+
+% custom inline listings with box around them
+\newcommand{\mylstbox}[2][columns=fullflexible]{\mybox{\lstinline[#1]{#2}}}
+\newcommand{\mytclstbox}[2][columns=fullflexible]{\mybox{\lstinline[basicstyle=\sffamily\footnotesize\color{#1}, columns=fullflexible]{#2}}}
+
+\newcommand\addvmargin[1]{
+  \node[fit= (current bounding box),inner ysep=#1,inner xsep=0]{};
+}

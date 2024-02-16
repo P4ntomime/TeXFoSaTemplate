@@ -1,0 +1,442 @@
+% =========================================== PACKAGES ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{times}
+
+\usepackage[main=ngerman]{babel}
+
+\usepackage{multicol}
+\usepackage{geometry}
+
+
+\usepackage{enumitem}
+\usepackage{outlines}
+\usepackage{tabularx}
+\usepackage{hhline}
+
+
+\usepackage{amssymb}
+
+
+\usepackage{scalerel}
+\usepackage{anyfontsize}
+\usepackage{xcolor}
+
+
+\usepackage{tcolorbox}
+\usepackage{contour}
+\usepackage[normalem]{ulem}
+
+
+\usepackage{tikz}
+
+
+\usepackage{listings}   % to use nodes inside listing see: https://texample.net/tikz/examples/tikz-listings/
+
+
+\usepackage{hyperref}
+\hypersetup{hidelinks,
+            % set pdf metadata
+            pdfauthor={\author},
+            pdftitle={JavaC},
+            pdfsubject={\title{} \semester{}},
+            pdfkeywords={Gahn go lerne!!}}
+
+\usepackage{qrcode}
+
+
+\usepackage{ifthen}
+\usepackage{calc}
+\usepackage{draftwatermark}
+
+
+\usepackage{fancyhdr}
+\usepackage[explicit]{titlesec}
+
+
+\usepackage{datetime2}
+
+% ========================================== BASIC SETUP ==========================================
+\geometry{left=3mm, 
+          right=3mm, 
+          top=3mm, 
+          bottom=3mm, 
+          headheight=0mm, 
+          headsep=0mm, 
+          footskip=3mm, 
+          includefoot}
+
+\setlength{\columnsep}{1.5mm}       % column separation
+\setlength{\columnseprule}{0.1pt}   % thickness of column separation line
+
+
+% --------------------------------------- COLOR DEFINITIONS ---------------------------------------
+\definecolor{mygray}{cmyk}{0,0,0,.75}
+\definecolor{sectioncolor}{HTML}{368d3f}
+\definecolor{sectextcol}{HTML}{000000}
+
+% color palette: https://colorkit.co/color-palette-generator/FF8552-9e22bd-404E7C-C32E15-225A28/
+\definecolor{basegreen}{HTML}{225A28}
+\definecolor{redcontrast}{HTML}{C32E15}
+\definecolor{bluecontrast}{HTML}{404E7C}
+\definecolor{coralcontrast}{HTML}{FF8552}
+\definecolor{claretcontrast}{HTML}{9e22bd}
+
+% colors for listings (code)
+\definecolor{commentcolour}{HTML}{404E7C}
+\definecolor{keywordcolour}{HTML}{225A28}
+\definecolor{stringcolour}{HTML}{9e22bd}
+\definecolor{numbercolour}{HTML}{808080}
+\definecolor{backcolour}{HTML}{f5f5f0}
+
+
+\setlist[enumerate]{label=\bfseries\arabic*., leftmargin=*, }   % enumerate style
+\setlist[itemize]{leftmargin=1.5em}
+\setlist{nosep}                    % no vertical spacing between list items
+
+\setlength{\parindent}{0pt}        % no paragraph indentation
+
+
+% tikz libraries
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{bending}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{angles}
+\usetikzlibrary{tikzmark}
+\usetikzlibrary{petri}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes}
+\usetikzlibrary{calc}
+
+
+% set style for URLs
+\urlstyle{same}
+
+
+% define new date style for versioning YYMMDD
+\DTMnewdatestyle{vnumdate}{%
+  \renewcommand{\DTMdisplaydate}[4]{\DTMtwodigits{##1}\DTMtwodigits{##2}\DTMtwodigits{##3}}%
+  \renewcommand{\DTMDisplaydate}{\DTMdisplaydate}%
+}
+\DTMsetdatestyle{vnumdate}
+
+
+% setup for ulem and contour packages
+\renewcommand{\ULdepth}{1.75pt}
+\contourlength{0.7pt}
+
+% ====================================== SETUP AND COMMANDS =======================================
+
+% custom underline command for exclusions on lowercase letters such as g, j, p, q, y
+\newcommand{\myul}[1]{%
+  \uline{\phantom{#1}}%
+  \llap{\contour*{white}{#1}}%
+}
+
+
+% \setcounter{secnumdepth}{0}        % no section numbering, remove if section numbering is needed
+
+
+% setup header and footer
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyfoot[LE,RO]{\tikz{\node[fill=basegreen, node font=\bfseries, text=white, minimum width=6mm, minimum height=3mm, inner sep=0mm, align=center]{\thepage};}}
+
+
+% setup section, subsection and subsubsection formatting
+\titleformat{\section}
+            {\fontsize{9}{8}\selectfont\bfseries}
+            {}
+            {0mm}
+            {\tikz{\node[fill=sectioncolor, text=sectextcol, text width=\dimexpr\columnwidth-4pt\relax, minimum height=5mm, inner sep=2pt, align=left]{\thesection\ #1};}}
+\titleformat{name=\section, numberless}
+            {\fontsize{9}{8}\selectfont\bfseries}
+            {}
+            {0mm}
+            {\tikz{\node[fill=sectioncolor, text=sectextcol, text width=\dimexpr\columnwidth-4pt\relax, minimum height=5mm, inner sep=2pt, align=left]{#1};}}
+
+\titlespacing{\section}
+             {0mm}
+             {.2ex}
+             {.2ex}
+
+% TODO: add subsectioncolor
+\titleformat{\subsection}
+            {\fontsize{9}{8}\selectfont\bfseries}
+            {}
+            {0mm}
+            {\phantomsection\tikz{\node[fill=sectioncolor, text=sectextcol, text width=\dimexpr\columnwidth-4pt\relax, minimum height=5mm, inner sep=2pt, align=left]{\thesubsection\ #1};}}
+\titleformat{name=\subsection, numberless}
+            {\fontsize{9}{8}\selectfont\bfseries}
+            {}
+            {0mm}
+            {\phantomsection\tikz{\node[fill=sectioncolor, text=sectextcol, text width=\dimexpr\columnwidth-4pt\relax, minimum height=5mm, inner sep=2pt, align=left]{#1};}}
+
+\titlespacing{\subsection}
+             {0mm}
+             {1ex}
+             {.2ex}
+
+
+\titleformat{\subsubsection}
+            {\fontsize{9}{8}\selectfont\bfseries}
+            {\thesubsubsection}
+            {0mm}
+            {\phantomsection{} #1}
+
+\titlespacing{\subsubsection}
+             {0mm}
+             {.2ex}
+             {.2ex}
+
+
+% custom command for examples
+\newcommand{\example}[1]{\subsubsection*{Beispiel: #1}}
+
+
+% scale ^ and _ in math mode
+% \catcode`_=\active% chktex 41 --> suppress ChkTeX warning
+% \catcode`^=\active% chktex 41
+% \newcommand_[1]{\ensuremath{\sb{\mathrm{\scaleobj{0.7}{#1}}}}}
+% \newcommand^[1]{\ensuremath{\sp{\mathrm{\scaleobj{0.7}{#1}}}}}
+
+%%%%%%%%%%%%%%%%%%%%%
+% inline tikz node for later referencing
+\newcommand{\tikznode}[2]{% from https://tex.stackexchange.com/a/402466/121799
+	\ifmmode%
+	\tikz[remember picture,baseline= (#1.base),inner sep=0pt] \node(#1){$#2$};
+	\else
+	\tikz[remember picture,baseline= (#1.base),inner sep=0pt] \node(#1){#2};
+	\fi}
+
+% inline lst tikz node for later referencing
+\newcommand{\lstnode}[2][0.5ex]{
+	\tikz[overlay, remember picture, inner sep=0pt, yshift=#1, minimum width=0mm]\node(#2){};
+}
+
+% custom inline tcolorbox
+\newtcbox{\mybox}
+            [1]
+            [backcolour]
+            {on line,
+            arc=0pt,
+            outer arc=0pt,
+            colback=#1,
+            colframe=#1,
+            boxsep=0pt,
+            left=1pt,
+            right=1pt,
+            top=1pt,
+            bottom=1pt,
+            boxrule=0pt}
+
+\makeatletter
+
+% renew command for lstinputlisting with less vertical spacing
+\renewcommand{\lstinputlisting}[2][]{
+    \begingroup
+    \vspace{-0.6\abovedisplayskip}
+    \lst@setcatcodes%
+    \lst@inputlisting[#1]{#2}
+    \vspace{-0.6\abovedisplayskip}
+}
+
+% custom text rightarrow to match tikz arrows
+\renewcommand{\textrightarrow}{\tikz{\draw[-{Stealth[length=1.7mm]},double] (0,0) -- (0.3,0);}} % ChkTeX 8 --> suppress ChkTeX warning
+\newcommand{\textlrarrow}{\tikz{\draw[{Stealth[length=1.7mm]}-{Stealth[length=1.7mm]},double] (0,0) -- (0.4,0);}} % ChkTeX 8 --> suppress ChkTeX warning
+
+% custom command for size matched colored brackets
+\newcommand{\bbr}[2]{\colorlet{saved}{.}\color{#1}\left(\color{saved}#2\color{#1}\right)\color{saved}}
+
+% shortcuts for colored text
+\newcommand{\cgn}[1]{{\color{basegreen}#1}}
+\newcommand{\crd}[1]{{\color{redcontrast}#1}}
+\newcommand{\cbl}[1]{{\color{bluecontrast}#1}}
+\newcommand{\cor}[1]{{\color{coralcontrast}#1}}
+\newcommand{\clt}[1]{{\color{claretcontrast}#1}}
+
+% bullet command for items in tables
+\newcommand\sbullet[1][.6]{\mathbin{\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+
+% custom inline listings with box around them
+\newcommand{\mylstbox}[2][columns=fullflexible]{\mybox{\lstinline[#1]{#2}}}
+\newcommand{\mytclstbox}[2][columns=fullflexible]{\mybox{\lstinline[basicstyle=\sffamily\footnotesize\color{#1}, columns=fullflexible]{#2}}}
+
+\newcommand\addvmargin[1]{
+  \node[fit= (current bounding box),inner ysep=#1,inner xsep=0]{};
+}
+%%%%%%%%%%%%%%%%%%%
+
+% stretch table rows
+\renewcommand{\arraystretch}{1.2}
+
+
+
+
+
+
+
+
+% custom pagelimit command. source: https://stackoverflow.com/questions/2720534/force-a-maximum-number-of-pages-in-latex 
+% colors all pages after the specified limit red
+\newcounter{pagecount}
+\newcommand{\limitpages}[1]{
+    \setcounter{pagecount}{0}%
+    \gdef\maxpages{#1}%
+    \ifx\latex@outputpage\@undefined\relax%
+        \global\let\latex@outputpage\@outputpage%
+    \fi%
+    \gdef\@outputpage{%
+        \addtocounter{pagecount}{1}%
+        \ifnum\value{pagecount}>\maxpages\relax%
+            % Do not output the page
+            \SetWatermarkText{#1 Seiten Limit erreicht!}%
+            \SetWatermarkScale{0.35}%
+            \pagecolor{red}
+            \latex@outputpage%
+        \else%
+            \SetWatermarkText{}%
+            \latex@outputpage%
+        \fi%
+    }%
+}
+
+\limitpages{6}  % set page limit to 6 pages
+
+
+% hack to fix asterisk in lstlisting
+\lst@CCPutMacro%
+    \lst@ProcessOther{"2A}{%
+         {\raisebox{0.125pt}{*}}}
+    \@empty\z@\@empty%
+
+\renewcommand{\tableofcontents}{%
+    \@starttoc{toc}
+}
+
+\newcommand{\docformatstart}{%
+    \input{sections/title.tex}
+}
+
+\newcommand{\docformatend}{%
+    \ifthenelse{\equal{\layout}{landscape}}{\end{multicols*}}{} % ChkTeX 10
+}
+
+
+\makeatother
+
+% redefine document command to take an argument (orientation)
+\let\originaldocument\document%
+\let\endoriginaldocument\enddocument%
+% \RenewDocumentEnvironment{document}{m}
+\RenewDocumentEnvironment{document}{}
+                            {\originaldocument\relax
+                            \ifthenelse{\paperwidth > \paperheight}
+                            % \ifthenelse{\equal{#1}{landscape}}
+                            {\begin{multicols*}{3} % ChkTeX 15
+                                \begin{minipage}[t]{0.18\columnwidth}
+                                    \vspace{-0.225\columnwidth}
+                                    \qrcode[level=L, version=0,height=0.9\columnwidth]{\repo}\\[1mm]
+                                    \normalfont\footnotesize V \version{}
+                                    \smallskip
+                                \end{minipage}\hfill
+                                \begin{minipage}[t]{0.81\columnwidth}
+                                    \raggedright%
+                                    \normalfont\Huge\bfseries\title{}\\
+                                    \normalfont\Large\semester\quad \dozent{}\\
+                                    \normalfont\large Autoren:\\
+                                    \normalfont\large\author{}\\[2mm]
+                                \end{minipage}
+                                \normalfont\normalsize\myul{\url{\repo}}}
+                            % {\ifthenelse{\equal{#1}{portrait}}{
+                            {\begin{center}
+                                \normalfont\fontsize{35}{32}\selectfont\bfseries\title{}\\[1cm]
+                                \normalfont\huge\semester\ \dozent{}\\
+                                \normalfont\Large Autoren:\\
+                                \normalfont\Large\author{}\\[2mm]
+                                \normalfont\large Version:\\
+                                \normalfont\large\version{}\\
+                                \normalsize\repo{}
+                            \end{center}
+                            \vfill
+                            \section*{\contentsname}
+                            \begin{multicols}{2}
+                                \tableofcontents%
+                            \end{multicols}
+                            \vfill
+                            \newpage
+                            \begin{multicols*}{2}
+                            }
+                            % }{}}
+                         }
+                         {\end{multicols*}\endoriginaldocument}
+
+
+% listings style (code)
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{commentcolour},
+    keywordstyle=\bfseries\color{keywordcolour},
+    numberstyle=\tiny\color{numbercolour},
+    stringstyle=\color{stringcolour},
+    basicstyle=\sffamily,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=2pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+	xleftmargin=1em,
+	language=Java,
+    extendedchars=true,
+    inputencoding=cp1252,
+	columns=[l]fullflexible	% see: https://tex.stackexchange.com/questions/99416/latex-source-code-listing-with-less-space-between-characters or manual
+}
+
+% custom lstinline command with custom colors
+\def\purplst{\begingroup\color{claretcontrast}}
+\def\greenlst{\begingroup\color{basegreen}}
+\def\redlst{\begingroup\color{redcontrast}}
+\def\ywlst{\begingroup\color{coralcontrast}}
+\def\bluelst{\begingroup\color{bluecontrast}}
+\def\endlstcol{\endgroup}
+
+% basic lstinline style without colors
+\lstdefinestyle{basestyle}{
+    backgroundcolor=\color{backcolour},
+    keywordstyle=\bfseries,
+    numberstyle=\tiny\color{numbercolour},
+    basicstyle=\sffamily\footnotesize,
+    breakatwhitespace=false,     
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=none,
+    numbersep=2pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    xleftmargin=0em,
+    language=Java,
+    columns=flexible,	% see: https://tex.stackexchange.com/questions/99416/latex-source-code-listing-with-less-space-between-characters or manual
+}
+
+\lstset{
+    style=mystyle,
+    morekeywords={final, override, enum, var, List, Set, Map, String, Object},
+    moredelim=[il][\textcolor{coralcontrast}]{¦¦},
+    moredelim=[is][\textcolor{coralcontrast}]{&&}{&&},
+    moredelim=[is][\textcolor{claretcontrast}]{@}{@},
+}
+
+
