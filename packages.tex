@@ -3,8 +3,8 @@
 \usepackage[T1]{fontenc}            % font encoding: T1
 \usepackage{textcomp}               % additional symbols
 \usepackage{times}                  % times new roman font
-
 \usepackage[main=ngerman]{babel}    % set main language to german
+
 
 \usepackage{multicol}               % provides multicols environment
 \usepackage{geometry}               % set page layout
@@ -18,7 +18,7 @@
 
 \usepackage{amsmath}                % math symbols
 \usepackage{amssymb}                % more math symbols
-\usepackage{SIunits}                % SI-units
+\usepackage[squaren]{SIunits}       % SI-units
 \usepackage{bm}                     % bold math symbols
 
 
@@ -37,7 +37,7 @@
 \usepackage{tikz}                   % needed for TikZ drawings
 
 
-\usepackage{listings}               % for nicer code display
+% \usepackage{listings}               % for nicer code display
 % to use nodes inside listing see: https://texample.net/tikz/examples/tikz-listings/
 
 
@@ -66,7 +66,10 @@
             pdftitle={\title},
             pdfsubject={\title\ \semester},
             pdfkeywords={Gahn go lerne!!}}
+% set style for URLs
+\urlstyle{same} % sets url font to the same as the preceeding text
 
+% set page layout
 \geometry{left=3mm, 
           right=3mm, 
           top=3mm, 
@@ -129,8 +132,6 @@
 
 
 % ------------------------------------ OTHER PACKAGE SETTINGS -------------------------------------
-% set style for URLs
-\urlstyle{same} % sets url font to the same as the preceeding text
 
 
 % define and set new date style for versioning as YYYYMMDD
@@ -165,6 +166,7 @@
 
 % --------------------------------------- TITLE FORMATTING ----------------------------------------
 % section formatting
+% TODO: set text depth
 \titleformat{\section}
             % {\fontsize{9}{8}\selectfont\bfseries}
             {\Large\bfseries}
@@ -266,10 +268,10 @@
 	\fi}
 
 
-% inline lst tikz node for later referencing
-\newcommand{\lstnode}[2][0.5ex]{
-	\tikz[overlay, remember picture, inner sep=0pt, yshift=#1, minimum width=0mm]\node(#2){};
-}
+% % inline lst tikz node for later referencing
+% \newcommand{\lstnode}[2][0.5ex]{
+% 	\tikz[overlay, remember picture, inner sep=0pt, yshift=#1, minimum width=0mm]\node(#2){};
+% }
 
 
 % custom inline tcolorbox
@@ -476,7 +478,7 @@
                             {\originaldocument\relax
                             \ifthenelse{\paperwidth > \paperheight} % ChkTeX 1
                             % \ifthenelse{\equal{#1}{landscape}}
-                            % landscape layout
+                            % LANDSCAPE LAYOUT
                             {\begin{multicols*}{3} % ChkTeX 15
                                 \begin{minipage}[t]{0.18\columnwidth}
                                     \vspace{-0.225\columnwidth}
@@ -495,7 +497,7 @@
                                 \end{minipage}
                                 \normalfont\normalsize\myul{\url{\repo}}}
                             % {\ifthenelse{\equal{#1}{portrait}}{
-                            % portrait layout
+                            % PORTRAIT LAYOUT
                             {\hfill\null\vspace{1cm}
                             \begin{center}
                                 \normalfont\fontsize{35}{32}\selectfont\bfseries\title{}\\[7.5mm]
@@ -504,13 +506,16 @@
                                 \normalfont\Large\author{}\\[2mm]
                                 \normalfont\large Version:\\
                                 \normalfont\large\version{}\\
-                                \normalsize\repo{}
+                                \normalfont\normalsize\myul{\url{\repo}}
                             \end{center}
                             \vfill
                             \section*{\contentsname}
+                            \begingroup
+                            \setlength{\columnsep}{5mm}
                             \begin{multicols}{2}
                                 \tableofcontents%
                             \end{multicols}
+                            \endgroup
                             \vfill
                             \thispagestyle{empty}
                             \newpage

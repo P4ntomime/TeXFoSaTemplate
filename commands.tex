@@ -29,14 +29,14 @@
 
 \makeatletter
 
-% renew command for lstinputlisting with less vertical spacing
-\renewcommand{\lstinputlisting}[2][]{
-    \begingroup
-    \vspace{-0.6\abovedisplayskip}
-    \lst@setcatcodes%
-    \lst@inputlisting[#1]{#2}
-    \vspace{-0.6\abovedisplayskip}
-}
+% % renew command for lstinputlisting with less vertical spacing
+% \renewcommand{\lstinputlisting}[2][]{
+%     \begingroup
+%     \vspace{-0.6\abovedisplayskip}
+%     \lst@setcatcodes%
+%     \lst@inputlisting[#1]{#2}
+%     \vspace{-0.6\abovedisplayskip}
+% }
 
 % custom text rightarrow to match tikz arrows
 \renewcommand{\textrightarrow}{\tikz{\draw[-{Stealth[length=1.7mm]},double] (0,0) -- (0.3,0);}} % ChkTeX 8 --> suppress ChkTeX warning
