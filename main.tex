@@ -1,24 +1,35 @@
+% ========================================= TEMPLATE INFO ========================================
+%
+% Author:       P4ntomime
+% Version:      1.0.0
+% Last updated: 2024-02-17
+% Brief:        A LaTeX template for summaries. See README.md for more information.
+% 
+% ================================================================================================
 \documentclass[8pt, a4paper, twoside]{extarticle}
+% Font size:    8pt
+% Paper size:   A4
+% style:        twoside (needed, so odd and even pages have different margins)
+% orientation:  portrait. (use 'landscape' for landscape orientation)
 
 
-% TODO: set footer for portrait and landscape
+% TODO: add custom tabular specifiers
 
-% ------------------------ DOCUMENT INFO ------------------------
+% ========================================= DOCUMENT INFO =========================================
 \def\title{Title}           % title
 \def\dozent{Dozent}         % lecturer
 \def\semester{Semester}     % semester
 \def\author{Authors}        % author(s)
 \def\repo{https://github.com/P4ntomime/SumJavaCPP}             % repository link
-\def\version{1.0.\today}   % version
+\def\version{1.0.\today}    % version
 \def\pagelimit{1}           % page limit -> causes pages after limit to be red
 
+
+% ================================= PACKAGES, SETUP AND COMMANDS ==================================
 \input{packages.tex}
 
 
-% \begin{document}{landscape} % ChkTeX 15
 \begin{document} % ChkTeX 15
-    % \docformatstart%
-    % \begin{multicols*}{3}
         \section{TestSection}{31}
         \subsection{TestSubsection}{32}
         \subsubsection{TestSubsubsection}{32}
@@ -34,6 +45,4 @@
         \newpage
         \subsubsection{TestSubsubsection 2s}
         a
-    % \endmulticols*
-    % \docformatend%
 \end{document} % ChkTeX 15
