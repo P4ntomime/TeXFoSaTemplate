@@ -20,6 +20,8 @@
 \usepackage{amssymb}                % more math symbols
 \usepackage[squaren]{SIunits}       % SI-units
 \usepackage{bm}                     % bold math symbols
+\usepackage{trfsigns}               % needed for "Laplace" symbol (Korrespondenz)
+\usepackage{mathrsfs}               % needed for Fourier transform "F"
 
 
 \usepackage{graphicx}               % include graphics
@@ -138,8 +140,8 @@
 
 % define and set new date style for versioning as YYYYMMDD
 \DTMnewdatestyle{vnumdate}{%
-  \renewcommand{\DTMdisplaydate}[4]{\number##1\DTMtwodigits{##2}\DTMtwodigits{##3}}%
-  \renewcommand{\DTMDisplaydate}{\DTMdisplaydate}%
+    \renewcommand{\DTMdisplaydate}[4]{\number##1\DTMtwodigits{##2}\DTMtwodigits{##3}}%
+    \renewcommand{\DTMDisplaydate}{\DTMdisplaydate}%
 }
 \DTMsetdatestyle{vnumdate}
 
@@ -153,8 +155,8 @@
 
 % custom underline command for exclusions on lowercase letters such as g, j, p, q, y
 \newcommand{\myul}[1]{%
-  \uline{\phantom{#1}}%
-  \llap{\contour*{white}{#1}}%
+    \uline{\phantom{#1}}%
+    \llap{\contour*{white}{#1}}%
 }
 
 
@@ -421,6 +423,16 @@
 
 % custom command for size matched colored brackets
 \newcommand{\bbr}[2]{\colorlet{saved}{.}\color{#1}\left(\color{saved}#2\color{#1}\right)\color{saved}}
+
+
+% custom command for differential operator d
+\newcommand{\diff}{\ensuremath{\mathop{} \! \mathrm{d}}}
+
+% custom command for underset limes operator
+\newcommand{\limes}[1]{\ensuremath{\underset{#1}{\lim}}}
+
+% custom command for absolute value
+\newcommand{\abs}[1]{\ensuremath{\left|#1\right|}}
 
 
 % shortcuts for colored text

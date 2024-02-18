@@ -43,6 +43,9 @@ Here's a list of the current commands (2024-02-18):
 | `\cor{}`              | Short-command for orange text. |
 | `\cvt{}`              | Short-command for violet text. |
 | `\tabitem`            | Item bullet if it is needed inside a tabular <br>(avoid using it, as most things can be achieved with itemize, enumerate or outline environments) |
+| `\diff{}`             | Differential "d" (not slanted) for derivatives and integrals. |
+| `\limes{}`            | Underset limes operator. |
+| `\abs{}`              | Absoulte value. Automatically adds left and right bars. |
 
 
 
