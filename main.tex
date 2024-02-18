@@ -2,7 +2,7 @@
 %
 % Author:       P4ntomime
 % Version:      1.0.0
-% Last updated: 2024-02-17
+% Last updated: 2024-02-18
 % Brief:        A LaTeX template for summaries. See README.md for more information.
 % 
 % ================================================================================================
@@ -13,36 +13,23 @@
 % orientation:  portrait. (use 'landscape' for landscape orientation)
 
 
-% TODO: add custom tabular specifiers
-
 % ========================================= DOCUMENT INFO =========================================
 \def\title{Title}           % title
+\def\shorttitle{ShortTitle} % short title (displayed as PDF title)
 \def\dozent{Dozent}         % lecturer
 \def\semester{Semester}     % semester
 \def\author{Authors}        % author(s)
-\def\repo{https://github.com/P4ntomime/SumJavaCPP}             % repository link
+\def\repo{https://github.com/P4ntomime/TeXFoSaTemplate}             % repository link
 \def\version{1.0.\today}    % version
-\def\pagelimit{10}          % page limit -> causes pages after limit to be red
+\def\pagelimit{3}           % page limit -> causes pages after limit to be red
 
 
 % ================================= PACKAGES, SETUP AND COMMANDS ==================================
-\input{packages.tex}
+\input{pream.sty}
 
-
-\begin{document} % ChkTeX 15
-        \section{TestSection}{31}
-        \subsection{TestSubsection}{32}
-        \subsubsection{TestSubsubsection}{32}
-        \section{TestSectiaon 2}
-        \newpage
-        \section{TestSection 3}
-        \subsection{TestSubsection 2}
-        \subsubsection{TestSubsubsection}
-        \example{testex}
-        \subsubsection{TestSubsubsection 2}
-        \subsection{TestSubsection 3}
-        \subsubsection{TestSubsubsection 3}
-        \newpage
-        \subsubsection{TestSubsubsection 2s}
-        a
-\end{document} % ChkTeX 15
+% =========================================== DOCUMENT ============================================
+\begin{document}
+    \begin{layout}
+        \section{Start}
+    \end{layout}
+\end{document}
