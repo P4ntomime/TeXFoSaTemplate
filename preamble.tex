@@ -407,17 +407,17 @@
 
 
 % custom text rightarrow to match tikz arrows
-\renewcommand{\textrightarrow}{
-    \tikz{
-        \draw[-{Stealth[length=1.7mm]},
-              double]
+\renewrobustcmd{\textrightarrow}{%
+    \tikz{%
+        \draw[-{Stealth[length=1.7mm]},%
+              double]%
                 (0,0) to (0.3,0);}}
 
 % custom text leftrightarrow to match tikz arrows
-\newcommand{\textlrarrow}{
-    \tikz{
-        \draw[{Stealth[length=1.7mm]}-{Stealth[length=1.7mm]},
-              double]
+\newrobustcmd{\textlrarrow}{%
+    \tikz{%
+        \draw[{Stealth[length=1.7mm]}-{Stealth[length=1.7mm]},%
+              double]%
                 (0,0) to (0.4,0);}}
 
 
