@@ -118,8 +118,14 @@
 
 
 % ----------------------------------- LIST AND TABULAR SETTINGS -----------------------------------
-\setlist[enumerate]{label=\bfseries\arabic*.,   % label style bold arabic numerals (1., 2., ...)
-                    leftmargin=*}               % remove left margin from enumerate
+\setlist[enumerate]{%
+    labelindent=0pt,                                % no indentation for labels
+    labelwidth = \widthof{\ref{enum-\EnumitemId}},  % set label width to widest label
+    label=\bfseries\arabic*.,                       % label style bold arabic numerals (1., 2., ...)
+    itemindent=1ex,                                 % separation between label and item text
+    leftmargin=!,                                   % automatically calculate left margin
+    after=\label{enum-\EnumitemId}}                 % set label for referencing in labelwidth
+    
 \setlist[itemize]{leftmargin=1.5em}             % left margin for itemize: 1.5em
 \setlist{nosep}                                 % no vertical spacing between list items
 
