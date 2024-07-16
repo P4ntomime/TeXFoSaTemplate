@@ -32,7 +32,7 @@
 
 
 \usepackage{tcolorbox}              % colored boxes
-\usepackage{contour}                % contour for text (used in custom underline command)
+\usepackage[outline]{contour}       % contour for text (used in custom underline command)
 \usepackage[normalem]{ulem}         % custom underline (used in custom underline command)
 
 
@@ -154,9 +154,14 @@
 % ====================================== SETUP AND COMMANDS =======================================
 
 % custom underline command for exclusions on lowercase letters such as g, j, p, q, y
-\newcommand{\myul}[1]{%
+\newrobustcmd{\myul}[1]{%
     \uline{\phantom{#1}}%
-    \llap{\contour*{white}{#1}}%
+    \llap{\contour{white}{#1}}%
+}
+
+\renewrobustcmd{\underline}[1]{%
+    \uline{\phantom{#1}}%
+    \llap{\contour{white}{#1}}%
 }
 
 
