@@ -18,6 +18,9 @@
 
 \usepackage{amsmath}                % math symbols
 \usepackage{amssymb}                % more math symbols
+\usepackage{mathtools}              % more math tools needed for pmatrix modification
+\usepackage{mhsetup}                % needed to modify pmatrix environment
+\usepackage{txfonts}                % Times math font
 \usepackage[squaren]{SIunits}       % SI-units
 \usepackage{bm}                     % bold math symbols
 \usepackage{trfsigns}               % needed for "Laplace" symbol (Korrespondenz)
@@ -32,7 +35,7 @@
 
 
 \usepackage{tcolorbox}              % colored boxes
-\usepackage{contour}                % contour for text (used in custom underline command)
+\usepackage[outline]{contour}       % contour for text (used in custom underline command)
 \usepackage[normalem]{ulem}         % custom underline (used in custom underline command)
 
 
@@ -88,7 +91,7 @@
 \setcounter{tocdepth}{2}            % only display sections and subsections in toc
 % \setcounter{secnumdepth}{0}       % uncomment to disable section numbering
 
-\DeclareMathSizes{8}{8}{6}{4}       % set math font sizes for 8pt document
+\DeclareMathSizes{8}{8}{6}{5}       % set math font sizes for 8pt document
 
 
 % --------------------------------------- COLOR DEFINITIONS ---------------------------------------
@@ -115,12 +118,18 @@
 
 
 % ----------------------------------- LIST AND TABULAR SETTINGS -----------------------------------
-\setlist[enumerate]{label=\bfseries\arabic*.,   % label style bold arabic numerals (1., 2., ...)
-                    leftmargin=*}               % remove left margin from enumerate
+\setlist[enumerate]{%
+    labelindent=0pt,                                % no indentation for labels
+    labelwidth = \widthof{\ref{enum-\EnumitemId}},  % set label width to widest label
+    label=\bfseries\arabic*.,                       % label style bold arabic numerals (1., 2., ...)
+    itemindent=1ex,                                 % separation between label and item text
+    leftmargin=!,                                   % automatically calculate left margin
+    after=\label{enum-\EnumitemId}}                 % set label for referencing in labelwidth
+
 \setlist[itemize]{leftmargin=1.5em}             % left margin for itemize: 1.5em
 \setlist{nosep}                                 % no vertical spacing between list items
 
-\renewcommand{\arraystretch}{1.2}               % stretch table rows
+\renewcommand{\arraystretch}{1}                 % stretch table rows
 
 
 % ----------------------------------------- TIKZ SETTINGS -----------------------------------------
@@ -154,9 +163,14 @@
 % ====================================== SETUP AND COMMANDS =======================================
 
 % custom underline command for exclusions on lowercase letters such as g, j, p, q, y
-\newcommand{\myul}[1]{%
+\newrobustcmd{\myul}[1]{%
     \uline{\phantom{#1}}%
-    \llap{\contour*{white}{#1}}%
+    \llap{\contour{white}{#1}}%
+}
+
+\renewrobustcmd{\underline}[1]{%
+    \uline{\phantom{#1}}%
+    \llap{\contour{white}{#1}}%
 }
 
 
@@ -186,7 +200,7 @@
                       align=left]                   % text alignment:   left
                       {\thesection\ #1};}}
 
-\titleformat{name=\section, numberless}
+\titleformat{numberless, name=\section}
             % {\fontsize{9}{8}\selectfont\bfseries}
             {\Large\bfseries}
             {}
@@ -222,7 +236,7 @@
                       align=left]                   % text alignment:   left
                       {\thesubsection\ #1};}}
 
-\titleformat{name=\subsection, numberless}
+\titleformat{numberless, name=\subsection}
             {\large\bfseries}
             {}
             {0mm}
@@ -254,6 +268,22 @@
              {.2ex}
              {.2ex}
 
+
+% paragraph formatting
+\titleformat{\paragraph}[runin]
+            {\semilarge\bfseries}
+            {}
+            {0mm}
+            {#1\normalfont :\;}
+
+\titlespacing{\paragraph}
+             {0mm}
+             {0ex}
+             {0.1ex}
+
+
+% new alias for paragraph '\para' (shorter than \paragraph)
+\let\para\paragraph%
 
 % custom command for examples
 \newcommand{\example}[1]{\subsubsection*{Beispiel: #1}}
@@ -407,18 +437,40 @@
 
 
 % custom text rightarrow to match tikz arrows
-\renewcommand{\textrightarrow}{
-    \tikz{
-        \draw[-{Stealth[length=1.7mm]},
-              double]
+\renewrobustcmd{\textrightarrow}{%
+    \tikz{%
+        \draw[-{Stealth[length=1.7mm]},%
+              double]%
                 (0,0) to (0.3,0);}}
 
 % custom text leftrightarrow to match tikz arrows
-\newcommand{\textlrarrow}{
-    \tikz{
-        \draw[{Stealth[length=1.7mm]}-{Stealth[length=1.7mm]},
-              double]
+\newrobustcmd{\textlrarrow}{%
+    \tikz{%
+        \draw[{Stealth[length=1.7mm]}-{Stealth[length=1.7mm]},%
+              double]%
                 (0,0) to (0.4,0);}}
+
+
+% renews the pmatrix environment to use \lgroup and \rgroup instead of \left( and \right)
+\renewenvironment{pmatrix}{%
+    \left\lgroup%
+    \matrix@check\pmatrix\env@matrix%
+}{
+    \endmatrix\right\rgroup%
+}
+
+% renews the pmatrix* environment to use \lgroup and \rgroup instead of \left( and \right)
+\MHInternalSyntaxOn%
+\renewenvironment{pmatrix*}[1][c]
+  {\left\lgroup\MT_matrix_begin:N #1}
+  {\MT_matrix_end:\right\rgroup}
+\MHInternalSyntaxOff%
+
+
+% new environment for centered tabulars
+\NewDocumentEnvironment{ctabular}{m}
+                        {\center\tabular{#1}}
+                        {\endtabular\endcenter}
 
 
 % custom command for size matched colored brackets
@@ -504,7 +556,7 @@
                                 \begin{minipage}[t]{0.81\columnwidth}
                                     \raggedright%
                                     \normalfont\Huge\bfseries\title{}\\
-                                    \normalfont\Large\semester\quad \dozent{}\\
+                                    \normalfont\Large\semester\ -- \dozent{}\\
                                     \normalfont\large Autoren:\\
                                     \normalfont\large\author{}\\[2mm]
                                 \end{minipage}
@@ -514,7 +566,7 @@
                             {\hfill\null\vspace{1cm}
                             \begin{center}
                                 \normalfont\fontsize{35}{32}\selectfont\bfseries\title{}\\[7.5mm]
-                                \normalfont\huge\semester\ \dozent{}\\
+                                \normalfont\huge\semester\ -- \dozent{}\\
                                 \normalfont\Large Autoren:\\
                                 \normalfont\Large\author{}\\[2mm]
                                 \normalfont\large Version:\\
