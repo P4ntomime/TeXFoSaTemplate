@@ -200,7 +200,7 @@
                       align=left]                   % text alignment:   left
                       {\thesection\ #1};}}
 
-\titleformat{name=\section, numberless}
+\titleformat{numberless, name=\section}
             % {\fontsize{9}{8}\selectfont\bfseries}
             {\Large\bfseries}
             {}
@@ -236,7 +236,7 @@
                       align=left]                   % text alignment:   left
                       {\thesubsection\ #1};}}
 
-\titleformat{name=\subsection, numberless}
+\titleformat{numberless, name=\subsection}
             {\large\bfseries}
             {}
             {0mm}
@@ -268,6 +268,22 @@
              {.2ex}
              {.2ex}
 
+
+% paragraph formatting
+\titleformat{\paragraph}[runin]
+            {\semilarge\bfseries}
+            {}
+            {0mm}
+            {#1\normalfont :\;}
+
+\titlespacing{\paragraph}
+             {0mm}
+             {0ex}
+             {0.1ex}
+
+
+% new alias for paragraph '\para' (shorter than \paragraph)
+\let\para\paragraph%
 
 % custom command for examples
 \newcommand{\example}[1]{\subsubsection*{Beispiel: #1}}
