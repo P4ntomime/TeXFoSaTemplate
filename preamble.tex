@@ -450,6 +450,13 @@
   {\MT_matrix_end:\right\rgroup}
 \MHInternalSyntaxOff%
 
+
+% new environment for centered tabulars
+\NewDocumentEnvironment{ctabular}{m}
+                        {\center\tabular{#1}}
+                        {\endtabular\endcenter}
+
+
 % custom command for size matched colored brackets
 \newcommand{\bbr}[2]{\colorlet{saved}{.}\color{#1}\left(\color{saved}#2\color{#1}\right)\color{saved}}
 
