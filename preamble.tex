@@ -18,6 +18,8 @@
 
 \usepackage{amsmath}                % math symbols
 \usepackage{amssymb}                % more math symbols
+\usepackage{mathtools}              % more math tools needed for pmatrix modification
+\usepackage{mhsetup}                % needed to modify pmatrix environment
 \usepackage{txfonts}                % Times math font
 \usepackage[squaren]{SIunits}       % SI-units
 \usepackage{bm}                     % bold math symbols
@@ -426,6 +428,21 @@
               double]%
                 (0,0) to (0.4,0);}}
 
+
+% renews the pmatrix environment to use \lgroup and \rgroup instead of \left( and \right)
+\renewenvironment{pmatrix}{%
+    \left\lgroup%
+    \matrix@check\pmatrix\env@matrix%
+}{
+    \endmatrix\right\rgroup%
+}
+
+% renews the pmatrix* environment to use \lgroup and \rgroup instead of \left( and \right)
+\MHInternalSyntaxOn%
+\renewenvironment{pmatrix*}[1][c]
+  {\left\lgroup\MT_matrix_begin:N #1}
+  {\MT_matrix_end:\right\rgroup}
+\MHInternalSyntaxOff%
 
 % custom command for size matched colored brackets
 \newcommand{\bbr}[2]{\colorlet{saved}{.}\color{#1}\left(\color{saved}#2\color{#1}\right)\color{saved}}
