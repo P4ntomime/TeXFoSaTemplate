@@ -126,11 +126,12 @@
     leftmargin=!,                                   % automatically calculate left margin
     after=\label{enum-\EnumitemId}}                 % set label for referencing in labelwidth
 
-\setlist[itemize]{leftmargin=1.5em}             % left margin for itemize: 1.5em
-\setlist{nosep}                                 % no vertical spacing between list items
+\setlist[itemize]{leftmargin=1.5em}                 % left margin for itemize: 1.5em
+\setlist{nosep}                                     % no vertical spacing between list items
 
-\renewcommand{\arraystretch}{1}                 % stretch table rows
+\renewcommand{\arraystretch}{1}                     % stretch table rows
 
+\setcounter{MaxMatrixCols}{32}                      % increase max columns in matrix environments
 
 % ----------------------------------------- TIKZ SETTINGS -----------------------------------------
 \usetikzlibrary{arrows}
