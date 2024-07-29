@@ -438,17 +438,26 @@
 
 % custom text rightarrow to match tikz arrows
 \renewrobustcmd{\textrightarrow}{%
-    \tikz{%
-        \draw[-{Stealth[length=1.7mm]},%
-              double]%
-                (0,0) to (0.3,0);}}
+    \raisebox{0.2ex}{%
+        \tikz[line width=0.11ex, >={Stealth[length=1.1ex, inset=0.2ex]}]{%
+            \draw (0,-0.13ex) to (0.55em, -0.13ex);
+            \draw (0, 0.13ex) to (0.55em,  0.13ex);
+            \draw[line width=0pt, ->] (0.8em,0) to (0.9em,0);
+        }
+    }
+}
 
 % custom text leftrightarrow to match tikz arrows
 \newrobustcmd{\textlrarrow}{%
-    \tikz{%
-        \draw[{Stealth[length=1.7mm]}-{Stealth[length=1.7mm]},%
-              double]%
-                (0,0) to (0.4,0);}}
+    \raisebox{0.2ex}{%
+        \tikz[line width=0.11ex, >={Stealth[length=1.1ex, inset=0.2ex]}]{%
+            \draw (0.35em,-0.13ex) to (0.9em, -0.13ex);
+            \draw (0.35em, 0.13ex) to (0.9em,  0.13ex);
+            \draw[line width=0pt, ->] (1.15em,0) to (1.25em,0);
+            \draw[line width=0pt, <-] (0,0) to (0.1em,0);
+        }
+    }
+}
 
 
 % renews the pmatrix environment to use \lgroup and \rgroup instead of \left( and \right)
