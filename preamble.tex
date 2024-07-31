@@ -551,57 +551,78 @@
 
 
 % new environment for layout --> automatically adjusts to landscape or portrait
-\NewDocumentEnvironment{layout}{}
-                            {\ifthenelse{\paperwidth > \paperheight} % ChkTeX 1
-                            % LANDSCAPE LAYOUT
-                            {\begin{multicols*}{3} % ChkTeX 15
-                                \begin{minipage}[t]{0.18\columnwidth}
-                                    \vspace{-0.225\columnwidth}
-                                    \qrcode[level=L, 
-                                            version=0,
-                                            height=0.9\columnwidth]{\repo}\\[1mm]
-                                    \normalfont\footnotesize V \version{}
-                                    \smallskip
-                                \end{minipage}\hfill
-                                \begin{minipage}[t]{0.81\columnwidth}
-                                    \raggedright%
-                                    \normalfont\Huge\bfseries\title{}\\
-                                    \normalfont\Large\semester\ -- \dozent{}\\
-                                    \normalfont\large Autoren:\\
-                                    \normalfont\large\author{}\\[2mm]
-                                \end{minipage}
-                                \normalfont\normalsize\myul{\url{\repo}}
-                                \raggedcolumns}
-                            % PORTRAIT LAYOUT
-                            {\hfill\null\vspace{1cm}
-                            \begin{center}
-                                \normalfont\fontsize{35}{32}\selectfont\bfseries\title{}\\[7.5mm]
-                                \normalfont\huge\semester\ -- \dozent{}\\
-                                \normalfont\Large Autoren:\\
-                                \normalfont\Large\author{}\\[2mm]
-                                \normalfont\large Version:\\
-                                \normalfont\large\version{}\\
-                                \normalfont\normalsize\myul{\url{\repo}}\\[2mm]
-                                \qrcode[level=L, 
-                                        version=0,
-                                        height=2cm]{\repo}
-                            \end{center}
-                            \vfill
-                            \section*{\contentsname}
-                            \begingroup
-                            \setlength{\columnsep}{5mm}
-                            \begin{multicols}{2}
-                                \tableofcontents%
-                            \end{multicols}
-                            \endgroup
-                            \vfill
-                            \thispagestyle{empty}
-                            \newpage
-                            \begin{multicols*}{2}
-                            \raggedcolumns}
-                         }
-                         {\end{multicols*}}
-
+\ExplSyntaxOn
+\NewDocumentEnvironment{layout}{}{
+    \int_new:N\l_my_numcols_int
+ 
+    \dim_compare:nNnTF{\paperwidth}<{\paperheight}
+    {
+        % PORTRAIT LAYOUT
+        \hfill\null\vspace{1cm}
+        \begin{center}
+            \normalfont\fontsize{35}{32}\selectfont\bfseries\title{}\\[7.5mm]
+            \normalfont\huge\semester\ --\ \dozent{}\\
+            \normalfont\Large Autoren:\\
+            \normalfont\Large\author{}\\[2mm]
+            \normalfont\large Version:\\
+            \normalfont\large\version{}\\
+            \normalfont\normalsize\myul{\url{\repo}}\\[2mm]
+            \qrcode[level=L, 
+                    version=0,
+                    height=2cm]{\repo}
+        \end{center}
+        \vfill
+        \section*{\contentsname}
+        \begingroup
+        \setlength{\columnsep}{5mm}
+        \begin{multicols}{2}
+            \tableofcontents%
+        \end{multicols}
+        \endgroup
+        \vfill
+        \thispagestyle{empty}
+        \newpage
+        \int_set:Nn\l_my_numcols_int {2} % default number of columns for portrait layout
+        
+    }
+    {
+        \int_set:Nn\l_my_numcols_int {3} % set number of columns for landscape layout
+    }
+    \begin{multicols*}{\int_use:N\l_my_numcols_int}
+    \raggedcolumns%
+    \dim_compare:nNnT{\paperwidth}>{\paperheight}
+    {
+        % LANDSCAPE LAYOUT
+        \begin{minipage}[t]{0.18\columnwidth}
+            \vspace{-0.225\columnwidth}
+            \qrcode[level=L, 
+                    version=0,
+                    height=0.9\columnwidth]{\repo}\\[1mm]
+            \normalfont\footnotesize V \version{}
+            \smallskip
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.81\columnwidth}
+            \raggedright%
+            \normalfont\Huge\bfseries\title{}\\
+            \normalfont\Large\semester\ --\ \dozent{}\\
+            \normalfont\large Autoren:\ \normalfont\large\author{}\\
+            \normalfont\normalsize\myul{\url{\repo}}
+        \end{minipage}\par % \par needed or else there is an underfull hbox warning
+        \str_if_eq:eeT {\str_lowercase:f\enableToC}{true}
+        {
+            \section*{\contentsname}
+            \resizebox{\columnwidth}{!}{%
+                \begin{minipage}[t]{1.2\columnwidth}
+                    \begin{multicols}{2}
+                        \tableofcontents%
+                    \end{multicols}
+                \end{minipage}
+            }\par
+        }
+    }%
+}
+{\end{multicols*}}
+\ExplSyntaxOff
 
 % ---------------------------------------- LISTINGS SETUP -----------------------------------------
 
