@@ -558,6 +558,8 @@
     \dim_compare:nNnTF{\paperwidth}<{\paperheight}
     {
         % PORTRAIT LAYOUT
+        \int_set:Nn\l_my_numcols_int {2} % default number of columns for portrait layout      
+
         \str_case:en{\str_lowercase:f\titleoption}
         {
             {compact}
@@ -574,7 +576,7 @@
                     \normalfont\Huge\bfseries\title{}\\[1mm]
                     \normalfont\Large\semester\ --\ \dozent{}\\
                     \large Autoren:\ \author{}\\[1mm]
-                    \normalsize\myul{\url{\repo}}
+                    \myul{\url{\repo}}
                 \end{minipage}\par
             }
             {normal}
@@ -583,11 +585,11 @@
                 \begin{center}
                     \normalfont\fontsize{35}{32}\selectfont\bfseries\title{}\\[7.5mm]
                     \normalfont\huge\semester\ --\ \dozent{}\\
-                    \normalfont\Large Autoren:\\
-                    \normalfont\Large\author{}\\[2mm]
-                    \normalfont\large Version:\\
-                    \normalfont\large\version{}\\
-                    \normalfont\normalsize\myul{\url{\repo}}\\[2mm]
+                    \Large Autoren:\\
+                    \Large\author{}\\[2mm]
+                    \large Version:\\
+                    \large\version{}\\
+                    \normalsize\myul{\url{\repo}}\\[2mm]
                     \qrcode[level=L, 
                             version=0,
                             height=2cm]{\repo}
@@ -606,10 +608,8 @@
             \end{multicols}
             \group_end:
             \vfill
+            \newpage
         }
-        \newpage
-        \int_set:Nn\l_my_numcols_int {2} % default number of columns for portrait layout
-        
     }
     {
         \int_set:Nn\l_my_numcols_int {3} % set number of columns for landscape layout
@@ -631,8 +631,8 @@
             \raggedright%
             \normalfont\Huge\bfseries\title{}\\
             \normalfont\Large\semester\ --\ \dozent{}\\
-            \normalfont\large Autoren:\ \normalfont\large\author{}\\
-            \normalfont\normalsize\myul{\url{\repo}}
+            \large Autoren:\ \author{}\\
+            \normalsize\myul{\url{\repo}}
         \end{minipage}\par % \par needed or else there is an underfull hbox warning
         \str_if_eq:eeT {\str_lowercase:f\enableToC}{true}
         {
