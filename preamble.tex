@@ -558,29 +558,55 @@
     \dim_compare:nNnTF{\paperwidth}<{\paperheight}
     {
         % PORTRAIT LAYOUT
-        \hfill\null\vspace{1cm}
-        \begin{center}
-            \normalfont\fontsize{35}{32}\selectfont\bfseries\title{}\\[7.5mm]
-            \normalfont\huge\semester\ --\ \dozent{}\\
-            \normalfont\Large Autoren:\\
-            \normalfont\Large\author{}\\[2mm]
-            \normalfont\large Version:\\
-            \normalfont\large\version{}\\
-            \normalfont\normalsize\myul{\url{\repo}}\\[2mm]
-            \qrcode[level=L, 
-                    version=0,
-                    height=2cm]{\repo}
-        \end{center}
-        \vfill
-        \section*{\contentsname}
-        \begingroup
-        \setlength{\columnsep}{5mm}
-        \begin{multicols}{2}
-            \tableofcontents%
-        \end{multicols}
-        \endgroup
-        \vfill
-        \thispagestyle{empty}
+        \str_case:en{\str_lowercase:f\titleoption}
+        {
+            {compact}
+            {
+                \begin{minipage}[t]{0.1\columnwidth}
+                    \raisebox{-.3\columnwidth}{\qrcode[level=L, 
+                            version=0,
+                            height=0.9\columnwidth]{\repo}}\\[1mm]
+                    \normalfont\footnotesize V \version{}
+                    \smallskip
+                \end{minipage}\hfill
+                \begin{minipage}[t]{0.89\columnwidth}
+                    \raggedright%
+                    \normalfont\Huge\bfseries\title{}\\[1mm]
+                    \normalfont\Large\semester\ --\ \dozent{}\\
+                    \large Autoren:\ \author{}\\[1mm]
+                    \normalsize\myul{\url{\repo}}
+                \end{minipage}\par
+            }
+            {normal}
+            {
+                \hfill\null\vspace{1cm}
+                \begin{center}
+                    \normalfont\fontsize{35}{32}\selectfont\bfseries\title{}\\[7.5mm]
+                    \normalfont\huge\semester\ --\ \dozent{}\\
+                    \normalfont\Large Autoren:\\
+                    \normalfont\Large\author{}\\[2mm]
+                    \normalfont\large Version:\\
+                    \normalfont\large\version{}\\
+                    \normalfont\normalsize\myul{\url{\repo}}\\[2mm]
+                    \qrcode[level=L, 
+                            version=0,
+                            height=2cm]{\repo}
+                \end{center}
+                \vfill
+                \thispagestyle{empty}
+            }
+        }
+        \str_if_eq:eeT {\str_lowercase:f\enableToC}{true}
+        {
+            \section*{\contentsname}
+            \group_begin:
+            \setlength{\columnsep}{5mm}
+            \begin{multicols}{2}
+                \tableofcontents%
+            \end{multicols}
+            \group_end:
+            \vfill
+        }
         \newpage
         \int_set:Nn\l_my_numcols_int {2} % default number of columns for portrait layout
         
