@@ -553,31 +553,60 @@
 % new environment for layout --> automatically adjusts to landscape or portrait
 \ExplSyntaxOn
 \NewDocumentEnvironment{layout}{}{
-    \int_new:N\l_my_numcols_int
- 
-    \dim_compare:nNnTF{\paperwidth}<{\paperheight}
+    \dim_compare:nNnT{\paperwidth}<{\paperheight}
     {
         % PORTRAIT LAYOUT
-        \int_set:Nn\l_my_numcols_int {2} % default number of columns for portrait layout      
-
         \str_case:en{\str_lowercase:f\titleoption}
         {
             {compact}
             {
-                \begin{minipage}[t]{0.1\columnwidth}
-                    \raisebox{-.3\columnwidth}{\qrcode[level=L, 
-                            version=0,
-                            height=0.9\columnwidth]{\repo}}\\[1mm]
-                    \normalfont\footnotesize V \version{}
-                    \smallskip
-                \end{minipage}\hfill
-                \begin{minipage}[t]{0.89\columnwidth}
-                    \raggedright%
-                    \normalfont\Huge\bfseries\title{}\\[1mm]
-                    \normalfont\Large\semester\ --\ \dozent{}\\
-                    \large Autoren:\ \author{}\\[1mm]
-                    \myul{\url{\repo}}
-                \end{minipage}\par
+                \str_if_eq:eeTF {\str_lowercase:f\enableToC}{true}
+                {
+                    \begin{minipage}[t]{0.1\columnwidth} % Elo-like formatting
+                        \raisebox{-.3\columnwidth}{\qrcode[level=L, 
+                                version=0,
+                                height=0.9\columnwidth]{\repo}}\\[1mm]
+                        \normalfont\footnotesize V \version{}
+                        \smallskip
+                    \end{minipage}\hfill
+                    \begin{minipage}[t]{0.89\columnwidth}
+                        \raggedright%
+                        \normalfont\Huge\bfseries\title{}\\[1mm]
+                        \normalfont\Large\semester\ --\ \dozent{}\\
+                        \large Autoren:\ \author{}\\[1mm]
+                        \myul{\url{\repo}}
+                    \end{minipage}\par
+                    \section*{\contentsname}
+                    \group_begin:
+                    \setlength{\columnsep}{5mm}
+                    \begin{multicols}{2}
+                        \tableofcontents%
+                    \end{multicols}
+                    \group_end:
+                    \vfill
+                    \newpage
+                    \begin{multicols*}{2}
+                    \raggedcolumns%
+                }
+                {
+                    \begin{multicols*}{2}
+                    \raggedcolumns%
+                    \begin{minipage}[t]{0.2\columnwidth} % MathFML-like formatting
+                        \vspace{-0.225\columnwidth}
+                        \qrcode[level=L, 
+                                version=0,
+                                height=0.9\columnwidth]{\repo}\\[1mm]
+                        \normalfont\footnotesize V \version{}
+                        \smallskip
+                    \end{minipage}\hfill
+                    \begin{minipage}[t]{0.79\columnwidth}
+                        \raggedright%
+                        \normalfont\Huge\bfseries\title{}\\[1mm]
+                        \normalfont\Large\semester\ --\ \dozent{}\\
+                        \large Autoren:\ \author{}\\[1mm]
+                        \normalsize\myul{\url{\repo}}
+                    \end{minipage}
+                }
             }
             {normal}
             {
@@ -596,29 +625,29 @@
                 \end{center}
                 \vfill
                 \thispagestyle{empty}
+                \str_if_eq:eeT {\str_lowercase:f\enableToC}{true}
+                {
+                    \section*{\contentsname}
+                    \group_begin:
+                    \setlength{\columnsep}{5mm}
+                    \begin{multicols}{2}
+                        \tableofcontents%
+                    \end{multicols}
+                    \group_end:
+                    \vfill
+                }
+                \newpage
+                \begin{multicols*}{2}
+                \raggedcolumns%
             }
         }
-        \str_if_eq:eeT {\str_lowercase:f\enableToC}{true}
-        {
-            \section*{\contentsname}
-            \group_begin:
-            \setlength{\columnsep}{5mm}
-            \begin{multicols}{2}
-                \tableofcontents%
-            \end{multicols}
-            \group_end:
-            \vfill
-            \newpage
-        }
     }
-    {
-        \int_set:Nn\l_my_numcols_int {3} % set number of columns for landscape layout
-    }
-    \begin{multicols*}{\int_use:N\l_my_numcols_int}
-    \raggedcolumns%
+    
     \dim_compare:nNnT{\paperwidth}>{\paperheight}
     {
         % LANDSCAPE LAYOUT
+        \begin{multicols*}{3}
+        \raggedcolumns%            
         \begin{minipage}[t]{0.18\columnwidth}
             \vspace{-0.225\columnwidth}
             \qrcode[level=L, 
