@@ -14,6 +14,7 @@
 \usepackage{outlines}               % easy nested lists
 \usepackage{tabularx}               % some nicer tables with X columns
 \usepackage{hhline}                 % double lines in tables
+\usepackage{booktabs}               % thick and thin lines in tables
 
 
 \usepackage{amsmath}                % math symbols
@@ -257,16 +258,15 @@
 
 % subsubsection formatting
 \titleformat{\subsubsection}
-            % {\fontsize{9}{8}\selectfont\bfseries}
-            {\normalsize\bfseries}
-            {\thesubsubsection}
+            {\large\bfseries}
+            {\myul{\thesubsubsection\ }}
             {0mm}
-            {\phantomsection{} #1}
+            {\phantomsection{}\myul{#1}}
 
 \titlespacing{\subsubsection}
              {0mm}
-             {.2ex}
-             {.2ex}
+             {1ex}
+             {1ex}
 
 
 % paragraph formatting
