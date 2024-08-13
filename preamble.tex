@@ -441,24 +441,24 @@
 \renewrobustcmd{\textrightarrow}{%
     \raisebox{0.2ex}{%
         \tikz[line width=0.11ex, >={Stealth[length=1.1ex, inset=0.2ex]}]{%
-            \draw (0,-0.13ex) to (0.55em, -0.13ex);
-            \draw (0, 0.13ex) to (0.55em,  0.13ex);
-            \draw[line width=0pt, ->] (0.8em,0) to (0.9em,0);
-        }
-    }
-}
+            \draw (0,-0.13ex) to (0.55em, -0.13ex);%
+            \draw (0, 0.13ex) to (0.55em,  0.13ex);%
+            \draw[line width=0pt, ->] (0.8em,0) to (0.9em,0);%
+        }%
+    }%
+}%
 
 % custom text leftrightarrow to match tikz arrows
 \newrobustcmd{\textlrarrow}{%
     \raisebox{0.2ex}{%
         \tikz[line width=0.11ex, >={Stealth[length=1.1ex, inset=0.2ex]}]{%
-            \draw (0.35em,-0.13ex) to (0.9em, -0.13ex);
-            \draw (0.35em, 0.13ex) to (0.9em,  0.13ex);
-            \draw[line width=0pt, ->] (1.15em,0) to (1.25em,0);
-            \draw[line width=0pt, <-] (0,0) to (0.1em,0);
-        }
-    }
-}
+            \draw (0.35em,-0.13ex) to (0.9em, -0.13ex);%
+            \draw (0.35em, 0.13ex) to (0.9em,  0.13ex);%
+            \draw[line width=0pt, ->] (1.15em,0) to (1.25em,0);%
+            \draw[line width=0pt, <-] (0,0) to (0.1em,0);%
+        }%
+    }%
+}%
 
 
 % renews the pmatrix environment to use \lgroup and \rgroup instead of \left( and \right)
@@ -605,7 +605,7 @@
                         \normalfont\Large\semester\ --\ \dozent{}\\
                         \large Autoren:\ \author{}\\[1mm]
                         \normalsize\myul{\url{\repo}}
-                    \end{minipage}
+                    \end{minipage}\par
                 }
             }
             {normal}
