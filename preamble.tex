@@ -163,16 +163,32 @@
 
 % ====================================== SETUP AND COMMANDS =======================================
 
+\ExplSyntaxOn
 % custom underline command for exclusions on lowercase letters such as g, j, p, q, y
 \newrobustcmd{\myul}[1]{%
-    \uline{\phantom{#1}}%
-    \llap{\contour{white}{#1}}%
+    \if_mode_math:
+        \text{%
+            \uline{\phantom{$#1$}}%
+            \llap{\contour{white}{$#1$}}%
+        }
+    \else:
+        \uline{\phantom{#1}}%
+        \llap{\contour{white}{#1}}%
+    \fi:
 }
 
 \renewrobustcmd{\underline}[1]{%
-    \uline{\phantom{#1}}%
-    \llap{\contour{white}{#1}}%
+    \if_mode_math:
+        \text{%
+            \uline{\phantom{$#1$}}%
+            \llap{\contour{white}{$#1$}}%
+        }
+    \else:
+        \uline{\phantom{#1}}%
+        \llap{\contour{white}{#1}}%
+    \fi:
 }
+\ExplSyntaxOff
 
 
 % setup header and footer
