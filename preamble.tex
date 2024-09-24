@@ -209,6 +209,20 @@
 
 % --------------------------------------- TITLE FORMATTING ----------------------------------------
 
+\titleclass{\part}{straight}
+
+% part formatting
+\titleformat{\part}
+            {\huge\bfseries}
+            {\thepart}
+            {1em}
+            {#1}
+
+\titlespacing{\part}
+             {0.6ex}
+             {1ex}
+             {1ex}
+             
 % section formatting
 \titleformat{\section}
             % {\fontsize{9}{8}\selectfont\bfseries}
