@@ -3,6 +3,7 @@
 \usepackage[T1]{fontenc}            % font encoding: T1
 \usepackage{textcomp}               % additional symbols
 \usepackage{times}                  % times new roman font
+\usepackage{inconsolata}            % inconsolata font for listings
 \usepackage[main=ngerman]{babel}    % set main language to german
 
 
@@ -31,7 +32,7 @@
 \usepackage{graphbox}               % needed for aligning images in multicol environment
 \usepackage{scalerel}               % scale any objects
 \usepackage{anyfontsize}            % set any font size
-\usepackage{xcolor}                 % needed for colors
+\usepackage[table]{xcolor}          % needed for colors
 
 
 \usepackage{tcolorbox}              % colored boxes
@@ -42,7 +43,7 @@
 \usepackage{tikz}                   % needed for TikZ drawings
 
 
-% \usepackage{listings}               % for nicer code display
+\usepackage{listings}               % for nicer code display
 % to use nodes inside listing see: https://texample.net/tikz/examples/tikz-listings/
 
 
@@ -111,10 +112,10 @@
 \definecolor{violet}{HTML}{a516c9}
 
 % colors for listings (code)
-% \definecolor{commentcolour}{HTML}{404E7C}
-% \definecolor{keywordcolour}{HTML}{225A28}
-% \definecolor{stringcolour}{HTML}{9e22bd}
-% \definecolor{numbercolour}{HTML}{808080}
+\definecolor{commentcolour}{HTML}{6a9955}
+\definecolor{keywordcolour}{HTML}{7f0055}
+\definecolor{stringcolour}{HTML}{9e22bd}
+\definecolor{numbercolour}{HTML}{808080}
 
 
 % ----------------------------------- LIST AND TABULAR SETTINGS -----------------------------------
@@ -162,6 +163,9 @@
 
 
 % ====================================== SETUP AND COMMANDS =======================================
+
+% custom font size for paragraph titles
+\newcommand{\semilarge}{\fontsize{9}{8}\selectfont} % new font size \semilarge (9pt)
 
 \ExplSyntaxOn
 % custom underline command for exclusions on lowercase letters such as g, j, p, q, y
@@ -275,15 +279,15 @@
 % subsubsection formatting
 \titleformat{\subsubsection}
             % {\fontsize{9}{8}\selectfont\bfseries}
-            {\normalsize\bfseries}
-            {\thesubsubsection}
+            {\large\bfseries}
+            {\myul{\thesubsubsection\ }}
             {0mm}
-            {\phantomsection{} #1}
+            {\phantomsection{}\myul{#1}}
 
 \titlespacing{\subsubsection}
              {0mm}
-             {.2ex}
-             {.2ex}
+             {1ex}
+             {1ex}
 
 
 % paragraph formatting
@@ -697,13 +701,13 @@
 
 % ---------------------------------------- LISTINGS SETUP -----------------------------------------
 
-% % hack to fix asterisk in lstlisting
-% \makeatletter
-% \lst@CCPutMacro%
-%     \lst@ProcessOther{"2A}{% ChkTeX 18
-%          {\raisebox{0.125pt}{*}}}
-%     \@empty\z@\@empty% ChkTeX 21
-% \makeatother
+% hack to fix asterisk in lstlisting
+\makeatletter
+\lst@CCPutMacro%
+    \lst@ProcessOther{"2A}{% ChkTeX 18
+         {\raisebox{0.125pt}{*}}}
+    \@empty\z@\@empty% ChkTeX 21
+\makeatother
 
 
 % % inline lst tikz node for later referencing
@@ -713,12 +717,12 @@
 
 
 % custom inline listings with box around them
-% \newcommand{\mylstbox}[2][columns=fullflexible]{
-%     \mybox{
-%         \lstinline[#1]{#2}}}
-% \newcommand{\mytclstbox}[2][columns=fullflexible]{
-%     \mybox{
-%         \lstinline[basicstyle=\sffamily\footnotesize\color{#1}, columns=fullflexible]{#2}}}
+\newcommand{\mylstbox}[2][columns=fullflexible]{
+    \mybox{
+        \lstinline[#1]{#2}}}
+\newcommand{\mytclstbox}[2][columns=fullflexible]{
+    \mybox{
+        \lstinline[basicstyle=\sffamily\footnotesize\color{#1}, columns=fullflexible]{#2}}}
 
 
 % % renew command for lstinputlisting with less vertical spacing
@@ -731,67 +735,101 @@
 % }
 
 
-% % listings style (code)
-% \lstdefinestyle{mystyle}{
-%     backgroundcolor=\color{backcolour},   
-%     commentstyle=\color{commentcolour},
-%     keywordstyle=\bfseries\color{keywordcolour},
-%     numberstyle=\tiny\color{numbercolour},
-%     stringstyle=\color{stringcolour},
-%     basicstyle=\sffamily,
-%     breakatwhitespace=false,
-%     breaklines=true,
-%     captionpos=b,
-%     keepspaces=true,
-%     numbers=left,
-%     numbersep=2pt,
-%     showspaces=false,
-%     showstringspaces=false,
-%     showtabs=false,
-%     tabsize=4,
-% 	xleftmargin=1em,
-% 	language=Java,
-%     extendedchars=true,
-%     inputencoding=cp1252,
-% 	columns=[l]fullflexible	% see: https://tex.stackexchange.com/questions/99416/latex-source-code-listing-with-less-space-between-characters or manual
-% }
+% listings style (code)
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{commentcolour},
+    keywordstyle=\bfseries\color{keywordcolour},
+    numberstyle=\ttfamily\tiny\color{numbercolour},
+    stringstyle=\color{stringcolour},
+    basicstyle=\ttfamily,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    frame=single,
+    framexleftmargin=0.5ex,
+    framesep=0pt,
+    framerule=0pt,
+    linewidth=\columnwidth,
+    numbers=left,
+    numbersep=4pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+	xleftmargin=1em,
+	language=[11]C++,
+    extendedchars=true,
+    inputencoding=cp1252,
+	columns=[l]fullflexible	% see: https://tex.stackexchange.com/questions/99416/latex-source-code-listing-with-less-space-between-characters or manual
+}
+
+\lstdefinestyle{cppstyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{commentcolour},
+    keywordstyle=\bfseries\color{keywordcolour},
+    numberstyle=\ttfamily\tiny\color{numbercolour},
+    stringstyle=\color{stringcolour},
+    basicstyle=\ttfamily,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    frame=single,
+    framexleftmargin=0.5ex,
+    framesep=0pt,
+    framerule=0pt,
+    linewidth=\columnwidth,
+    numbers=left,
+    numbersep=4pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+	xleftmargin=1em,
+	language=[11]C++,
+    extendedchars=true,
+    inputencoding=cp1252,
+    morekeywords={final, override, enum, var},
+%
+	columns=[l]fullflexible	% see: https://tex.stackexchange.com/questions/99416/latex-source-code-listing-with-less-space-between-characters or manual
+}
+
+% custom lstinline command with custom colors
+\def\purplst{\begingroup\color{violet}}
+\def\greenlst{\begingroup\color{green}}
+\def\redlst{\begingroup\color{red}}
+\def\ywlst{\begingroup\color{orange}}
+\def\bluelst{\begingroup\color{blue}}
+\def\endlstcol{\endgroup}
 
 
-% % custom lstinline command with custom colors
-% \def\purplst{\begingroup\color{violet}}
-% \def\greenlst{\begingroup\color{green}}
-% \def\redlst{\begingroup\color{red}}
-% \def\ywlst{\begingroup\color{orange}}
-% \def\bluelst{\begingroup\color{blue}}
-% \def\endlstcol{\endgroup}
+% basic lstinline style without colors
+\lstdefinestyle{basestyle}{
+    backgroundcolor=\color{backcolour},
+    keywordstyle=\bfseries,
+    numberstyle=\tiny\color{numbercolour},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,     
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=none,
+    numbersep=4pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    xleftmargin=2.5ex,
+    language=Java,
+    columns=flexible,	% see: https://tex.stackexchange.com/questions/99416/latex-source-code-listing-with-less-space-between-characters or manual
+}
 
 
-% % basic lstinline style without colors
-% \lstdefinestyle{basestyle}{
-%     backgroundcolor=\color{backcolour},
-%     keywordstyle=\bfseries,
-%     numberstyle=\tiny\color{numbercolour},
-%     basicstyle=\sffamily\footnotesize,
-%     breakatwhitespace=false,     
-%     breaklines=true,
-%     captionpos=b,
-%     keepspaces=true,
-%     numbers=none,
-%     numbersep=2pt,
-%     showspaces=false,
-%     showstringspaces=false,
-%     showtabs=false,
-%     tabsize=4,
-%     xleftmargin=0em,
-%     language=Java,
-%     columns=flexible,	% see: https://tex.stackexchange.com/questions/99416/latex-source-code-listing-with-less-space-between-characters or manual
-% }
-
-
-% \lstset{
-%     style=mystyle,
-%     morekeywords={final, override, enum, var, List, Set, Map, String, Object},
-%     moredelim=[il][\textcolor{orange}]{¦¦},
-%     moredelim=[is][\textcolor{orange}]{&&}{&&},
-%     moredelim=[is][\textcolor{violet}]{@}{@},
-% }
+\lstset{
+    style=cppstyle,
+    moredelim=[il][\textcolor{orange}]{¦¦},
+    moredelim=[is][\textcolor{orange}]{&&}{&&},
+    moredelim=[is][\textcolor{violet}]{@}{@},
+}

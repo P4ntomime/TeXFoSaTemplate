@@ -32,6 +32,64 @@
 % =========================================== DOCUMENT ============================================
 \begin{document}
     \begin{layout}
-        \section{Start}
+        \section{Listings Test}
+        \subsection{Listing with \texttt{\textbackslash lstinputlisting}}
+        \lstinputlisting{listingsTest.h}
+        \subsection{Listing with \texttt{\textbackslash begin\{lstlisting\}}}
+\begin{lstlisting}
+// A simple code example in C++ for lstlisting environment
+
+/**
+ * @brief This is a block comment
+ **/
+
+#include <iostream>
+#include <cstdint>
+
+#include "mylib.h"
+
+int someFunction(int a, int b);
+
+int main(void) {
+    bool BoolVar = true;
+    
+    char CharVar = 'a';
+    
+    int IntVar = 0;
+    unsigned int UnsignedIntVar = 0;
+    
+    long LongVar = 0; 
+    unsigned long UnsignedLongVar = 0;
+
+    long long LongLongVar = 0;
+    unsigned long long UnsignedLongLongVar = 0;
+    
+    float FloatVar = 0.0;
+    
+    double DoubleVar = 0.0;
+    
+    // stdint.h types
+    int8_t Int8Var = 0;
+    uint8_t UInt8Var = 0;
+
+    int16_t Int16Var = 0;
+    uint16_t UInt16Var = 0;
+
+    int32_t Int32Var = 0;
+    uint32_t UInt32Var = 0;
+
+    int64_t Int64Var = 0;
+    uint64_t UInt64Var = 0;
+
+    std::cout << "Hello, World!" << std::endl;
+
+    IntVar = someFunction(1, 2);
+    return 0;
+}
+
+int someFunction(int a, int b) {
+    return a + b;
+}
+\end{lstlisting}
     \end{layout}
 \end{document}
