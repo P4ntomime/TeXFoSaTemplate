@@ -765,6 +765,10 @@
 	columns=[l]fullflexible	% see: https://tex.stackexchange.com/questions/99416/latex-source-code-listing-with-less-space-between-characters or manual
 }
 
+\newif\ifcoloranglebrackets
+\coloranglebracketsfalse
+\newcommand\coloroncondition{\ifcoloranglebrackets\color{stringcolour}\fi}
+
 \lstdefinestyle{cppstyle}{
     backgroundcolor=\color{backcolour},   
     commentstyle=\color{commentcolour},
@@ -792,6 +796,8 @@
     extendedchars=true,
     inputencoding=cp1252,
     morekeywords={final, override, enum, var},
+    moredelim=**[directive][\coloranglebracketstrue]\#, % source: https://tex.stackexchange.com/questions/409859/listings-how-to-colorize-strings-between-angle-brackets 
+    moredelim=**[s][\coloroncondition]<>
 %
 	columns=[l]fullflexible	% see: https://tex.stackexchange.com/questions/99416/latex-source-code-listing-with-less-space-between-characters or manual
 }
