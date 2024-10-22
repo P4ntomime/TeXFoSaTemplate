@@ -3,6 +3,7 @@
 \usepackage[T1]{fontenc}            % font encoding: T1
 \usepackage{textcomp}               % additional symbols
 \usepackage{times}                  % times new roman font
+\usepackage{inconsolata}            % inconsolata font for listings
 \usepackage[main=ngerman]{babel}    % set main language to german
 
 
@@ -45,7 +46,7 @@
 \usepackage{tikz}                   % needed for TikZ drawings
 
 
-% \usepackage{listings}               % for nicer code display
+\usepackage{listings}               % for nicer code display
 % to use nodes inside listing see: https://texample.net/tikz/examples/tikz-listings/
 
 
@@ -85,7 +86,9 @@
           bottom=6mm, 
           headheight=0mm, 
           headsep=0mm, 
-          footskip=4mm}
+          footskip=4mm,
+        %   showframe,
+          }
 
 \setlength{\columnsep}{1.5mm}       % distance between columns
 \setlength{\columnseprule}{0.1pt}   % thickness of column separation line
@@ -114,10 +117,10 @@
 \definecolor{violet}{HTML}{a516c9}
 
 % colors for listings (code)
-% \definecolor{commentcolour}{HTML}{404E7C}
-% \definecolor{keywordcolour}{HTML}{225A28}
-% \definecolor{stringcolour}{HTML}{9e22bd}
-% \definecolor{numbercolour}{HTML}{808080}
+\definecolor{commentcolour}{HTML}{6a9955}
+\definecolor{keywordcolour}{HTML}{7f0055}
+\definecolor{stringcolour}{HTML}{9e22bd}
+\definecolor{numbercolour}{HTML}{808080}
 
 
 % ----------------------------------- LIST AND TABULAR SETTINGS -----------------------------------
@@ -167,10 +170,8 @@
 
 % ====================================== SETUP AND COMMANDS =======================================
 
-
 % custom font size for paragraph titles
 \newcommand{\semilarge}{\fontsize{9}{8}\selectfont} % new font size \semilarge (9pt)
-
 
 \ExplSyntaxOn
 % custom underline command for exclusions on lowercase letters such as g, j, p, q, y
@@ -719,13 +720,13 @@
 
 % ---------------------------------------- LISTINGS SETUP -----------------------------------------
 
-% % hack to fix asterisk in lstlisting
-% \makeatletter
-% \lst@CCPutMacro%
-%     \lst@ProcessOther{"2A}{% ChkTeX 18
-%          {\raisebox{0.125pt}{*}}}
-%     \@empty\z@\@empty% ChkTeX 21
-% \makeatother
+% hack to fix asterisk in lstlisting. Otherwise it would be centered vertically
+\makeatletter
+\lst@CCPutMacro%
+    \lst@ProcessOther{"2A}{% ChkTeX 18
+         {\raisebox{0.125pt}{*}}}
+    \@empty\z@\@empty% ChkTeX 21
+\makeatother
 
 
 % % inline lst tikz node for later referencing
@@ -735,85 +736,158 @@
 
 
 % custom inline listings with box around them
-% \newcommand{\mylstbox}[2][columns=fullflexible]{
-%     \mybox{
-%         \lstinline[#1]{#2}}}
-% \newcommand{\mytclstbox}[2][columns=fullflexible]{
-%     \mybox{
-%         \lstinline[basicstyle=\sffamily\footnotesize\color{#1}, columns=fullflexible]{#2}}}
+\newcommand{\mylstbox}[2][columns=fullflexible]{%
+    \mybox{%
+        \lstinline[#1]{#2}}}
+\newcommand{\mytclstbox}[2][columns=fullflexible]{%
+    \mybox{%
+        \lstinline[basicstyle=\sffamily\footnotesize\color{#1}, columns=fullflexible]{#2}}}
 
 
-% % renew command for lstinputlisting with less vertical spacing
-% \renewcommand{\lstinputlisting}[2][]{
-%     \begingroup
-%     \vspace{-0.6\abovedisplayskip}
-%     \lst@setcatcodes%
-%     \lst@inputlisting[#1]{#2}
-%     \vspace{-0.6\abovedisplayskip}
-% }
+% basic listings style
+\lstdefinestyle{basestyle}{
+%   === Text Formatting (font, style and color) ===
+    basicstyle=\ttfamily,               % Monospaced font for code
+    commentstyle=\color{commentcolour}, % Only change color for comments
+    keywordstyle=\bfseries\color{keywordcolour},    % Bold and color for keywords
+    numberstyle=\ttfamily\tiny\color{numbercolour}, % Monospaced (tiny) font for line numbers
+    stringstyle=\color{stringcolour},   % Only change color for strings
+%   === Code Formatting (spacing, line breaks, etc.) ===
+    breakatwhitespace=false,    % Don't break only at whitespace
+    breaklines=true,            % Enable automatic line breaks (when lines are too long)
+    keepspaces=true,            % TODO: Check if it would be better without this
+    showspaces=false,           % Spaces set to invisible
+    showstringspaces=false,     % Spaces in strings set to invisible
+    showtabs=false,             % Don't show tab characters
+    tabsize=2,                  % Tab size set to 2 spaces (this refers to the spaces used for tabs inside the code)
+    columns=[l]fullflexible,    % Column formatting, see listings manual for more information
+%   === Frame and Background Formatting (borders, padding, etc.) ===
+    frame=single,           % Single frame around code
+    framexleftmargin=0.5ex, % Padding from left frame to code
+    framesep=0pt,           % Padding between frame and code
+    framerule=0pt,          % Thickness of frame (set to 0pt for no frame)
+    backgroundcolor=\color{backcolour}, % Background color
+    captionpos=b,           % Caption at the bottom
+%   === Size and Margin Setup ===
+    linewidth=\columnwidth, % Line width set to column width
+    xleftmargin=2.5ex,      % Left margin set to 2.5ex          % XXX: xleftmargin needs to be extended if line numbers reach 100
+%   === Line Number Formatting ===
+    numbers=left,   % Line numbers on the left
+    numbersep=4pt,  % Separation between line numbers and code
+%   === Encoding Setup ===
+    extendedchars=true,     % Allow for extended characters
+    inputencoding=cp1252,   % Windows-1252 encoding, as utf-8 is somewhat broken :(
+}
+
+% Define new if and new command for coloring angle brackets in listings after a # directive (e.g. #include <iostream>)
+\newif\ifcoloranglebrackets
+\coloranglebracketsfalse
+\newcommand{\coloroncondition}[1][stringcolour]{\ifcoloranglebrackets\color{#1}\fi}
+
+% C++ style for listings
+\lstdefinestyle{cppstyle}{%
+	language=[11]C++,   % Set language to C++ 11
+%   === Additional Default Keywords ===
+    morekeywords={% For some odd reason, these keywords are not included in the default C++ 11 keyword list
+        final,%
+        override,%
+    },
+%   === Additional Types ===
+    keywordstyle={[2]\color{keywordcolour}}, % [2] generates a second keyword style group
+    morekeywords={[2]%
+%       === cstdint (stdint.h) ===
+        intmax_t,%
+        int8_t,%
+        int16_t,%
+        int32_t,%
+        int64_t,%
+        int_least8_t,%
+        int_least16_t,%
+        int_least32_t,%
+        int_least64_t,%
+        int_fast8_t,%
+        int_fast16_t,%
+        int_fast32_t,%
+        int_fast64_t,%
+        intptr_t,%
+        uintmax_t,%
+        uint8_t,%
+        uint16_t,%
+        uint32_t,%
+        uint64_t,%
+        uint_least8_t,%
+        uint_least16_t,%
+        uint_least32_t,%
+        uint_least64_t,%
+        uint_fast8_t,%
+        uint_fast16_t,%
+        uint_fast32_t,%
+        uint_fast64_t,%
+        uintptr_t,%
+%       === cstddef (stddef.h) ===
+        ptrdiff_t,%
+        size_t,%
+        max_align_t,%
+        nullptr_t
+    },
+%   following code is used to colorize includes between angle brackets < >
+%   source: https://tex.stackexchange.com/questions/409859/listings-how-to-colorize-strings-between-angle-brackets 
+    moredelim=**[directive][\coloranglebracketstrue]\#, % directive is not documented, but only affects directives such as '#'
+    moredelim=**[s][\coloroncondition]{<}{>} % Add a string delimiter that is colored if \coloranglebrackets is true
+}
 
 
-% % listings style (code)
-% \lstdefinestyle{mystyle}{
-%     backgroundcolor=\color{backcolour},   
-%     commentstyle=\color{commentcolour},
-%     keywordstyle=\bfseries\color{keywordcolour},
-%     numberstyle=\tiny\color{numbercolour},
-%     stringstyle=\color{stringcolour},
-%     basicstyle=\sffamily,
-%     breakatwhitespace=false,
-%     breaklines=true,
-%     captionpos=b,
-%     keepspaces=true,
-%     numbers=left,
-%     numbersep=2pt,
-%     showspaces=false,
-%     showstringspaces=false,
-%     showtabs=false,
-%     tabsize=4,
-% 	xleftmargin=1em,
-% 	language=Java,
-%     extendedchars=true,
-%     inputencoding=cp1252,
-% 	columns=[l]fullflexible	% see: https://tex.stackexchange.com/questions/99416/latex-source-code-listing-with-less-space-between-characters or manual
-% }
+% VHDL style for listings
+\lstdefinestyle{vhdlstyle}{%
+    language=VHDL,  % Set language to VHDL
+    % upquote=false,  % TODO: Check if this is needed
+    keywordstyle={[2]\color{orange}},
+%   === Additional Types ===
+    morekeywords={[2],%
+        bit,%
+        bit_vector,%
+        boolean,%
+        integer,%
+        string,%
+        std_logic,%
+        std_logic_vector,%
+        std_ulogic,%
+        std_ulogic_vector,%
+        time,%
+        unsigned,%
+        signed,%
+        natural,%
+        note,%
+        warning,%
+        error,%
+        failure%
+    },
+%   === Additional Default Functions ===
+    keywordstyle={[3]\color{blue!80!black}},
+    morekeywords={[3],%
+        rising_edge,%
+        falling_edge,%
+        ceil,%
+        floor,%
+        log2,%
+        to_integer,%
+        to_unsigned,%
+        to_signed,%
+        to_bit,%
+        to_bitvector,%
+        to_stdlogic,%
+        to_stdulogic,%
+        to_stdlogicvector,%
+        to_stdulogicvector,%
+        resize,%
+        real,%
+    },
+%   === Additional String Delimiter ' ===
+    morestring=[m]',
+}
 
-
-% % custom lstinline command with custom colors
-% \def\purplst{\begingroup\color{violet}}
-% \def\greenlst{\begingroup\color{green}}
-% \def\redlst{\begingroup\color{red}}
-% \def\ywlst{\begingroup\color{orange}}
-% \def\bluelst{\begingroup\color{blue}}
-% \def\endlstcol{\endgroup}
-
-
-% % basic lstinline style without colors
-% \lstdefinestyle{basestyle}{
-%     backgroundcolor=\color{backcolour},
-%     keywordstyle=\bfseries,
-%     numberstyle=\tiny\color{numbercolour},
-%     basicstyle=\sffamily\footnotesize,
-%     breakatwhitespace=false,     
-%     breaklines=true,
-%     captionpos=b,
-%     keepspaces=true,
-%     numbers=none,
-%     numbersep=2pt,
-%     showspaces=false,
-%     showstringspaces=false,
-%     showtabs=false,
-%     tabsize=4,
-%     xleftmargin=0em,
-%     language=Java,
-%     columns=flexible,	% see: https://tex.stackexchange.com/questions/99416/latex-source-code-listing-with-less-space-between-characters or manual
-% }
-
-
-% \lstset{
-%     style=mystyle,
-%     morekeywords={final, override, enum, var, List, Set, Map, String, Object},
-%     moredelim=[il][\textcolor{orange}]{¦¦},
-%     moredelim=[is][\textcolor{orange}]{&&}{&&},
-%     moredelim=[is][\textcolor{violet}]{@}{@},
-% }
+\lstset{
+    style=basestyle,    % base style for listings (styles are cumulative)
+    % style=cppstyle,     % C++ style for listings (builds on top of base style)
+    % style=vhdlstyle,    % VHDL style for listings (builds on top of base style)
+}
