@@ -879,6 +879,7 @@
         max_align_t,%
         nullptr_t
     },
+    keywordstyle={[3]\color{green!70!blue}},
 %   following code is used to colorize includes between angle brackets < >
 %   source: https://tex.stackexchange.com/questions/409859/listings-how-to-colorize-strings-between-angle-brackets 
     moredelim=**[directive][\coloranglebracketstrue]\#, % directive is not documented, but only affects directives such as '#'
@@ -937,6 +938,6 @@
 
 \lstset{
     style=basestyle,    % base style for listings (styles are cumulative)
-    % style=cppstyle,     % C++ style for listings (builds on top of base style)
+    style=cppstyle,     % C++ style for listings (builds on top of base style)
     % style=vhdlstyle,    % VHDL style for listings (builds on top of base style)
 }
