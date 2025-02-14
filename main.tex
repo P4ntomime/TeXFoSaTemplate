@@ -6,7 +6,7 @@
 % Brief:        A LaTeX template for summaries. See README.md for more information.
 % 
 % ================================================================================================
-\documentclass[8pt, a4paper, twoside]{extarticle}
+\documentclass[8pt, a4paper, twoside, dbg]{ostsummary}
 % Font size:    8pt
 % Paper size:   A4
 % style:        twoside (needed, so odd and even pages have different margins)
@@ -14,24 +14,29 @@
 
 
 % ========================================= DOCUMENT INFO =========================================
-\def\title{Title}           % title
-\def\shorttitle{ShortTitle} % short title (displayed as PDF title)
-\def\dozent{Dozent}         % lecturer
-\def\semester{Semester}     % semester
-\def\author{Authors}        % author(s)
-\def\repo{https://github.com/P4ntomime/TeXFoSaTemplate}             % repository link
-\def\version{1.0.\today}    % version
-\def\pagelimit{3}           % page limit -> causes pages after limit to be red
-\def\titleoption{ultra compact}   % options: ultra compact, compact, normal
-\def\enableToC{true}
+% \def\title{Title}           % title
+% \def\shorttitle{ShortTitle} % short title (displayed as PDF title)
+% \def\dozent{Dozent}         % lecturer
+% \def\semester{Semester}     % semester
+% \def\author{Authors}        % author(s)
+% \def\repo{https://github.com/P4ntomime/TeXFoSaTemplate}             % repository link
+% \def\version{1.0.\today}    % version
+% \def\pagelimit{3}           % page limit -> causes pages after limit to be red
+% \def\titleoption{ultra compact}   % options: ultra compact, compact, normal
+% \def\enableToC{true}
 
 % ================================= PACKAGES, SETUP AND COMMANDS ==================================
-\input{preamble.tex}
+% \input{preamble.tex}
+
+% \makeatletter
+% \let\test\@ostsummary@debug\relax
+% \makeatother
 
 
 % =========================================== DOCUMENT ============================================
 \begin{document}
-    \begin{layout}
-        \section{Start}
-    \end{layout}
+testosteroni %\mytestcmd
+    % \begin{layout}
+    %     \section{Start}
+    % \end{layout}
 \end{document}
