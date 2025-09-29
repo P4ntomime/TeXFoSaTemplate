@@ -6,7 +6,16 @@
 % Brief:        A LaTeX template for summaries. See README.md for more information.
 % 
 % ================================================================================================
-\documentclass[8pt, a4paper, twoside, dbg]{ostsummary}
+\documentclass[%
+    % 8pt, 
+    % a4paper, 
+    % twoside, 
+    % dbg
+    debug/frame=false,
+    landscape,
+    title option=ultra compact,
+    colors/section/fg=AA0000,
+    ]{ostsummary}
 % Font size:    8pt
 % Paper size:   A4
 % style:        twoside (needed, so odd and even pages have different margins)
@@ -31,11 +40,22 @@
 % \makeatletter
 % \let\test\@ostsummary@debug\relax
 % \makeatother
-
+\title{TestTitle}
+% \makeatletter
+% \newcommand\lecturer[1]{\renewcommand\@lecturer{#1}}
+% \newcommand\@lecturer{}
+% \makeatother
+\lecturer{TestLecturer}
 
 % =========================================== DOCUMENT ============================================
 \begin{document}
+\makeatletter
+\@title
+\@lecturer
+\makeatother
 testosteroni %\mytestcmd
+
+\textcolor{sectionfg}{text}
     % \begin{layout}
     %     \section{Start}
     % \end{layout}
