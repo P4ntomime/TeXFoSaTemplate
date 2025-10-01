@@ -39,53 +39,76 @@
 
 \ExplSyntaxOn
 
-\bool_new:N \l__ostsummary_dbg_showframe
-\bool_new:N \l__ostsummary_enabletoc
-\int_new:N \l__ostsummary_tocdepth
-\int_new:N \l__ostsummary_pagelimit
-\str_new:N \l__ostsummary_color_section_bg
-\str_new:N \l__ostsummary_color_section_fg
-\str_new:N \l__ostsummary_color_subsection_bg
-\str_new:N \l__ostsummary_color_subsection_fg
+\bool_new:N \l_bool_dbg_showframe
+\bool_new:N \l_bool_enabletoc
+\int_new:N \l_int_tocdepth
+\int_new:N \l_int_pagelimit
+\str_new:N \l_str_color_section_bg
+\str_new:N \l_str_color_section_fg
+\str_new:N \l_str_color_subsection_bg
+\str_new:N \l_str_color_subsection_fg
+\dim_new:N \l_dim_margin_top
+\dim_new:N \l_dim_margin_bottom
+\dim_new:N \l_dim_margin_left
+\dim_new:N \l_dim_margin_right
+\dim_new:N \l_dim_margin_headheight
+\dim_new:N \l_dim_margin_headsep
+\dim_new:N \l_dim_margin_footskip
 
 \DeclareKeys{%
     % Debug options: only showframe from geometry for now...
-    debug / frame       .bool_set:N = \l__ostsummary_dbg_showframe,
-    debug / frame       .usage:n    = load,
+    debug / frame .bool_set:N = \l_bool_dbg_showframe,
+    debug / frame .usage:n    = load,
     % frame     .code:n     = \PassOptionsToPackage{showframe}{geometry},
 
     % enable or disable table of contents
-    enabletoc   .bool_set:N = \l__ostsummary_enabletoc,
-    enabletoc   .usage:n    = load,
+    enabletoc .bool_set:N = \l_bool_enabletoc,
+    enabletoc .usage:n    = load,
 
     % depth of table of content (default: 2)
-    tocdepth    .int_set:N  = \l__ostsummary_tocdepth,
-    tocdepth    .initial:n  = 2,
+    tocdepth .int_set:N = \l_int_tocdepth,
+    tocdepth .initial:n = 2,
     
     % optional pagelimit
-    pagelimit   .int_set:N  = \l__ostsummary_pagelimit,
-    pagelimit   .usage:n    = load,
-    pagelimit   .initial:n  = 0, % 0 is equal to no pagelimit
+    pagelimit .int_set:N = \l_int_pagelimit,
+    pagelimit .usage:n   = load,
+    pagelimit .initial:n = 0, % 0 is equal to no pagelimit
 
     % title(page) options. Only applicable in portrait orientation
     title~option .choice:,
     % TODO: implement this
-    title~option / regular .code:n = \typeout{Option a},
-    title~option / compact .code:n = \typeout{Option b},
+    title~option / regular       .code:n = \typeout{Option a},
+    title~option / compact       .code:n = \typeout{Option b},
     title~option / ultra~compact .code:n = \typeout{Option c},
 
     % colors handled as strings for now
-    colors / section / bg .str_set:N = \l__ostsummary_color_section_bg,
-    colors / section / bg .initial:n = {b4b3b2},
-    colors / section / fg .str_set:N = \l__ostsummary_color_section_fg,
-    colors / section / fg .initial:n = {000000},
-    colors / subsection / bg .str_set:N = \l__ostsummary_color_subsection_bg,
+    colors / section / bg    .str_set:N = \l_str_color_section_bg,
+    colors / section / bg    .initial:n = {b4b3b2},
+    colors / section / fg    .str_set:N = \l_str_color_section_fg,
+    colors / section / fg    .initial:n = {000000},
+    colors / subsection / bg .str_set:N = \l_str_color_subsection_bg,
     colors / subsection / bg .initial:n = {dcdbdb},
-    colors / subsection / fg .str_set:N = \l__ostsummary_color_subsection_fg,
+    colors / subsection / fg .str_set:N = \l_str_color_subsection_fg,
     colors / subsection / fg .initial:n = {000000},
+    
+    % page margins
+    spacing / margins / top        .dim_set:N = \l_dim_margin_top,
+    spacing / margins / top        .initial:n = {3mm},
+    spacing / margins / bottom     .dim_set:N = \l_dim_margin_bottom,
+    spacing / margins / bottom     .initial:n = {6mm},
+    spacing / margins / left       .dim_set:N = \l_dim_margin_left,
+    spacing / margins / left       .initial:n = {3mm},
+    spacing / margins / right      .dim_set:N = \l_dim_margin_right,
+    spacing / margins / right      .initial:n = {3mm},
+    spacing / margins / headheight .dim_set:N = \l_dim_margin_headheight,
+    spacing / margins / headheight .initial:n = {0mm},
+    spacing / margins / headsep    .dim_set:N = \l_dim_margin_headsep,
+    spacing / margins / headsep    .initial:n = {0mm},
+    spacing / margins / footskip   .dim_set:N = \l_dim_margin_footskip,
+    spacing / margins / footskip   .initial:n = {4mm},
 
     % handle all unknown keys
-    unknown     .code:n     = \ostsummary@unknown ,
+    unknown .code:n = \ostsummary@unknown ,
 }
 
 
@@ -103,7 +126,8 @@
         { \l_keys_key_str = { \exp_not:o \l_keys_value_tl } }
     }
 }
-    
+
+% If we don't know the key, pass it to the `extarticle` class
 \ProcessKeyOptions
 \PassOptionsToClass{\ostsummary@unknownoptions}{extarticle}
 \PassOptionsToClass{8pt, a4paper}{extarticle}
@@ -178,19 +202,21 @@
 
 % Geometry package for layout margins
 \ExplSyntaxOn
-\bool_if:nT{\l__ostsummary_dbg_showframe}{%
-    \PassOptionsToPackage{showframe}{geometry}
-}
-\ExplSyntaxOff
+% remove following if everything works as it should
+% \bool_if:nT{\l_bool_dbg_showframe}{%
+%     \PassOptionsToPackage{showframe}{geometry}
+% }
 \PassOptionsToPackage{%
-    left=3mm,
-    right=3mm,
-    top=3mm,
-    bottom=6mm,
-    headheight=0mm,
-    headsep=0mm,
-    footskip=4mm
+    top        = \l_dim_margin_top,
+    bottom     = \l_dim_margin_bottom,
+    left       = \l_dim_margin_left,
+    right      = \l_dim_margin_right,
+    headheight = \l_dim_margin_headheight,
+    headsep    = \l_dim_margin_headsep,
+    footskip   = \l_dim_margin_footskip,
+    showframe  = \l_bool_dbg_showframe
 }{geometry}
+\ExplSyntaxOff
 \RequirePackage{geometry}
 
 % \ExplSyntaxOn
@@ -227,7 +253,7 @@
 \setlength{\parindent}{0pt}         % no paragraph indentation
 
 % \ExplSyntaxOn
-% \setcounter{tocdepth}{\int_use:N \l__ostsummary_tocdepth}            % only display sections and subsections in toc
+% \setcounter{tocdepth}{\int_use:N \l_int_tocdepth}            % only display sections and subsections in toc
 % \ExplSyntaxOff
 \setcounter{tocdepth}{2}            % only display sections and subsections in toc
 % \setcounter{secnumdepth}{0}       % uncomment to disable section numbering
@@ -252,10 +278,10 @@
 
 \ExplSyntaxOn
 
-\definecolor{sectionbg}{HTML}{\str_use:N \l__ostsummary_color_section_bg}
-\definecolor{sectionfg}{HTML}{\str_use:N \l__ostsummary_color_section_fg}
-\definecolor{subsectionbg}{HTML}{\str_use:N \l__ostsummary_color_subsection_bg}
-\definecolor{subsectionfg}{HTML}{\str_use:N \l__ostsummary_color_subsection_fg}
+\definecolor{sectionbg}{HTML}{\str_use:N \l_str_color_section_bg}
+\definecolor{sectionfg}{HTML}{\str_use:N \l_str_color_section_fg}
+\definecolor{subsectionbg}{HTML}{\str_use:N \l_str_color_subsection_bg}
+\definecolor{subsectionfg}{HTML}{\str_use:N \l_str_color_subsection_fg}
 
 \ExplSyntaxOff
 % \if@ostsummary@draft
