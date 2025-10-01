@@ -44,13 +44,9 @@
 \int_new:N \l__ostsummary_tocdepth
 \int_new:N \l__ostsummary_pagelimit
 \str_new:N \l__ostsummary_color_section_bg
-% \str_set:Nn\l__ostsummary_color_section_bg{b4b3b2}
 \str_new:N \l__ostsummary_color_section_fg
-% \str_set:Nn\l__ostsummary_color_section_fg{000000}
 \str_new:N \l__ostsummary_color_subsection_bg
-% \str_set:Nn\l__ostsummary_color_subsection_bg{dcdbdb} 
 \str_new:N \l__ostsummary_color_subsection_fg
-% \str_set:Nn\l__ostsummary_color_subsection_fg{000000} 
 
 \DeclareKeys{%
     % Debug options: only showframe from geometry for now...
@@ -64,12 +60,12 @@
 
     % depth of table of content (default: 2)
     tocdepth    .int_set:N  = \l__ostsummary_tocdepth,
-    tocdepth    .default:n  = 2,
+    tocdepth    .initial:n  = 2,
     
     % optional pagelimit
     pagelimit   .int_set:N  = \l__ostsummary_pagelimit,
     pagelimit   .usage:n    = load,
-    pagelimit   .default:n  = 0, % 0 is equal to no pagelimit
+    pagelimit   .initial:n  = 0, % 0 is equal to no pagelimit
 
     % title(page) options. Only applicable in portrait orientation
     title~option .choice:,
@@ -96,31 +92,24 @@
 % handle all unknown keys (copied from beautybook.cls class)
 \clist_new:N \ostsummary@unknownoptions
 \cs_new_protected:Npn \ostsummary@unknown
-  {
+{
     \bool_if:NTF \l__keys_no_value_bool
-      { % eg. 12pt, twoside
+    { % eg. 12pt, twoside
         \clist_put_right:Nx \ostsummary@unknownoptions
-          { \l_keys_key_str }
-      }
-      { % eg. zihao=4, fontset=windows
-        \clist_put_right:Nx \ostsummary@unknownoptions
-          { \l_keys_key_str = { \exp_not:o \l_keys_value_tl } }
-      }
+        { \l_keys_key_str }
     }
-\ExplSyntaxOff
-
-\ProcessKeyOptions
-
-\ExplSyntaxOn
-\bool_if:nT{\l__ostsummary_dbg_showframe}{%
-    \PassOptionsToPackage{showframe}{geometry}
+    { % eg. zihao=4, fontset=windows
+        \clist_put_right:Nx \ostsummary@unknownoptions
+        { \l_keys_key_str = { \exp_not:o \l_keys_value_tl } }
+    }
 }
-\ExplSyntaxOff
-
+    
+\ProcessKeyOptions
 \PassOptionsToClass{\ostsummary@unknownoptions}{extarticle}
 \PassOptionsToClass{8pt, a4paper}{extarticle}
 \LoadClass{extarticle}[1996/10/08]
 
+\ExplSyntaxOff
 
 % ========================= Titling command definitions =========================
 % TODO: make fix so currently existing summaries still work with new package
@@ -188,22 +177,36 @@
 \RequirePackage{multicol}               % provides multicols environment
 
 % Geometry package for layout margins
+\ExplSyntaxOn
+\bool_if:nT{\l__ostsummary_dbg_showframe}{%
+    \PassOptionsToPackage{showframe}{geometry}
+}
+\ExplSyntaxOff
+\PassOptionsToPackage{%
+    left=3mm,
+    right=3mm,
+    top=3mm,
+    bottom=6mm,
+    headheight=0mm,
+    headsep=0mm,
+    footskip=4mm
+}{geometry}
 \RequirePackage{geometry}
 
 % \ExplSyntaxOn
 % set page layout
-\geometry{%
-    left=3mm, 
-    right=3mm, 
-    top=3mm, 
-    bottom=6mm, 
-    headheight=0mm, 
-    headsep=0mm, 
-    footskip=4mm,
-    % \sfrmeTst
-    % showframe = \bool_to_str:c\g__dbg_showframe ,
-    %   showframe,
-}
+% \geometry{%
+%     left=3mm, 
+%     right=3mm, 
+%     top=3mm, 
+%     bottom=6mm, 
+%     headheight=0mm, 
+%     headsep=0mm, 
+%     footskip=4mm,
+%     % \sfrmeTst
+%     % showframe = \bool_to_str:c\g__dbg_showframe ,
+%     %   showframe,
+% }
 % \if@ostsummary@dbg@frame%
 % \geometry{%
 %     showframe=true
